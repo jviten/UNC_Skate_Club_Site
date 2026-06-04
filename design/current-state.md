@@ -181,7 +181,12 @@ Two fixes the standup surfaced: (1) **missing `shapely` dep** — `geoalchemy2.s
 - Filter chip label is **`transition`** (not "tranny") — matches the beginner-welcoming voice.
 - Base map = **muted OSM street tiles** (not satellite); the spot photo in the popup covers "see the actual spot."
 - Detail sheet uses **cream `--paper`** (fall back to bone `#ebe4d2` only if it reads muddy over tiles).
-- **Bust marker style = spike both, user picks.** Two modes shipped behind a toggle / `?markers=color|state`. **OPEN — awaiting the user's field test to pick `color` vs `state`**, then delete the loser.
+- **Markers = one Carolina-blue capsule; glyph = type is the only differentiator.** (Resolved: the color-vs-state bust spike + toggle were removed — read as confusing without a legend. Bust lives in the filter chips + popup only.)
+- **`skatepark` added as a 7th spot type** (schema + frontend + backend migration). For the Chapel Hill/Carrboro skatepark(s).
+- **Initial map zoom = 14** (was 13 — read as too wide). **Hard pan boundary added** (`maxBounds` ~`[[35.79,-79.20],[36.03,-78.91]]`, `maxBoundsViscosity: 1.0`, `minZoom: 12`) — campus + ~15-min-drive ring; can't wander to Durham/Raleigh. Tune the box if it feels off.
+- **`bust` stays optional** (already optional in the schema; confirmed — submission form/intake won't require it).
+- **Spot intake (interim) = a Google Form** the founder shares → Sheet → exec review → hand-add to `seed_data.json`. Validation gate = human review + `schema.json` + the snapshot↔schema test. The real v2 form/queue comes later.
+- **Votes + comments** requested → added to the roadmap as **v5** (design deferred).
 
 **Design direction docs:** `design/spot-map-skate-stylist-pass.md`, `design/spot-map-frontend-designer-pass.md`.
 

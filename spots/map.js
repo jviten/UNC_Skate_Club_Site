@@ -10,12 +10,16 @@
   var SNAPSHOT_URL = "data/public-spots.json";
   var HYDRATE_TIMEOUT_MS = 3000;
   var CENTER = [35.911, -79.060];
-  var ZOOM = 13;
+  var ZOOM = 14;   // tighter on campus + Carrboro to start (was 13, read as too wide)
+  // hard pan boundary: campus + roughly a 15-min-drive ring. Stops the map wandering
+  // to Durham/Raleigh/etc. — spots >20 min from campus don't belong here.
+  var MAX_BOUNDS = [[35.79, -79.20], [36.03, -78.91]];
+  var MIN_ZOOM = 12;   // can't zoom out past the region
 
-  var TYPES = ["ledge", "stairs", "rail", "transition", "flat", "DIY"];
+  var TYPES = ["ledge", "stairs", "rail", "transition", "flat", "DIY", "skatepark"];
   var TYPE_LABELS = {
     ledge: "ledges", stairs: "stairs", rail: "rails",
-    transition: "transition", flat: "flat", DIY: "DIY"
+    transition: "transition", flat: "flat", DIY: "DIY", skatepark: "skatepark"
   };
   var BUSTS = ["chill", "caution", "hot"];
   var BUST_WORDS = { chill: "nobody cares", caution: "depends on the day", hot: "you'll get kicked" };
@@ -70,8 +74,10 @@
   }
 
   // ---- map setup ----
-  var map = L.map("map", { zoomControl: false, attributionControl: true })
-    .setView(CENTER, ZOOM);
+  var map = L.map("map", {
+    zoomControl: false, attributionControl: true,
+    maxBounds: MAX_BOUNDS, maxBoundsViscosity: 1.0, minZoom: MIN_ZOOM
+  }).setView(CENTER, ZOOM);
 
   L.control.zoom({ position: "bottomright" }).addTo(map);
 

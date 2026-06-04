@@ -82,6 +82,18 @@ def test_get_spot(db_session, client):
     assert client.get("/api/spots/secret").status_code == 404
 
 
+def test_skatepark_type(db_session, client):
+    # The 0002 migration's CHECK constraint must accept 'skatepark', and the
+    # new type must serialize through /api/spots like any other.
+    _insert_spot(db_session, id="park", name="Park", lng=-79.05, lat=35.91,
+                 type="skatepark")
+
+    r = client.get("/api/spots")
+    assert r.status_code == 200
+    park = next(s for s in r.json() if s["id"] == "park")
+    assert park["type"] == "skatepark"
+
+
 def test_seed_idempotent(db_session):
     from app import seed
 

@@ -23,7 +23,7 @@ See `schema.json` for the formal definition. Quick reference:
 - `id` — kebab-case slug, unique across both files. Stable across edits.
 - `name` — human-readable.
 - `lat`, `lng` — decimal degrees.
-- `type` — one of `ledge`, `stairs`, `rail`, `transition`, `flat`, `DIY`.
+- `type` — one of `ledge`, `stairs`, `rail`, `transition`, `flat`, `DIY`, `skatepark`.
 
 **Recommended**
 - `area` — `Chapel Hill` | `Carrboro` | `other`.

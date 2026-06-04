@@ -35,8 +35,8 @@
       },
       "type": {
         "type": "string",
-        "enum": ["ledge", "stairs", "rail", "transition", "flat", "DIY"],
-        "description": "Primary obstacle. Matches the filter UI in TODO.md."
+        "enum": ["ledge", "stairs", "rail", "transition", "flat", "DIY", "skatepark"],
+        "description": "Primary obstacle / spot kind. Matches the filter UI in TODO.md."
       },
       "area": {
         "type": "string",

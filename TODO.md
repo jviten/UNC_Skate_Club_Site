@@ -40,6 +40,10 @@ The static-map references in `spots/data/schema.md` and `admin/data/README.md` a
 - [ ] Replace placeholder seed spots with real Chapel Hill / Carrboro spots
 - [ ] Decide free hosting (Fly.io / Koyeb) + Neon DB; deploy (set `API_BASE` to https before deploy)
 
+## Interim — Google Form intake (before the real form exists)
+
+- [ ] **Google Form** the founder shares with skater friends → responses land in a Google Sheet. Exec reviews each, then it's hand-added to `backend/seed_data.json` (re-seed + re-snapshot). This is the *validation gate for now*: human exec review + the JSON schema (`schema.json`) + the snapshot↔schema pytest test. Form fields map to the schema; **`bust` is optional**. Lets us collect real spots fast without building the v2 form yet.
+
 ## v2 — Submissions + uploader + image worker
 
 - [ ] Public *request* form → DB moderation queue (rows with status, not an email inbox)
@@ -60,6 +64,14 @@ The static-map references in `spots/data/schema.md` and `admin/data/README.md` a
 
 - [ ] UNC-email verification (OTP or OAuth, `@unc.edu` / `@email.unc.edu`)
 - [ ] Verified UNC users → pre-trusted fast-track lane on the uploader; non-UNC → standard request queue
+
+## v5 — Community signal (votes + comments) — planned, details TBD
+
+*Requested 2026-06-04. Add to plan now, design later.*
+
+- [ ] Upvote / downvote on spots (is it good? still there? worth the trip?)
+- [ ] Comments on spots
+- [ ] Open design questions for later: anonymous vs identified voting (abuse/ballot-stuffing prevention — likely needs the v3 auth or at least rate-limiting); comment moderation (execs review, or post-and-flag); schema (votes + comments tables, spot FK); how votes surface on the map/popup; whether votes feed a "last confirmed skateable" signal.
 
 ## Landing page
 

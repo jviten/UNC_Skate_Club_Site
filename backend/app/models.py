@@ -10,7 +10,7 @@ from app.db import Base
 # Enums mirror spots/data/schema.json exactly. native_enum=False keeps them as
 # DB CHECK constraints (simpler to evolve than a Postgres ENUM type).
 spot_type = ENUM(
-    "ledge", "stairs", "rail", "transition", "flat", "DIY",
+    "ledge", "stairs", "rail", "transition", "flat", "DIY", "skatepark",
     name="spot_type", create_type=False, native_enum=False,
 )
 spot_area = ENUM(
