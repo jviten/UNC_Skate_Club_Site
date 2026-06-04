@@ -36,7 +36,7 @@ The static-map references in `spots/data/schema.md` and `admin/data/README.md` a
 - [x] **Anticipate video in the data model**: `videos` table created (model + migration only; nothing serves it)
 - [x] `security` pass — backend + frontend reviewed; no blockers; gaps fixed (CORS prod note, bbox range guard, marker `type`/`bust` whitelist)
 - [ ] **User picks the marker style** (`color` vs `state`), then delete the loser
-- [ ] **Stand up + verify the backend** — `uv sync` (generates the missing `uv.lock`), `docker compose up`, migrate → seed → snapshot → hit `/api/spots`
+- [x] **Stand up + verify the backend** — uv installed, PostGIS up (port 5433), migrate → seed → snapshot → endpoints all verified; `uv.lock` committed; pytest suite (7 tests) passing; fixed a missing `shapely` dep that broke `/api/spots` + snapshot on clean install
 - [ ] Replace placeholder seed spots with real Chapel Hill / Carrboro spots
 - [ ] Decide free hosting (Fly.io / Koyeb) + Neon DB; deploy (set `API_BASE` to https before deploy)
 

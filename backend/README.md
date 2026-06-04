@@ -58,6 +58,19 @@ uv run alembic upgrade head      # apply
 uv run alembic downgrade base    # roll back (round-trips; leaves postgis ext)
 ```
 
+## Tests
+
+```powershell
+uv run pytest                    # runs tests/ against a dedicated uncskate_test DB
+```
+
+The suite uses its own `uncskate_test` database on the same Docker Postgres
+(created/migrated/dropped per session by `tests/conftest.py`), so it never
+touches dev data or the committed `public-spots.json`. Requires the Docker DB to
+be up (`docker compose up -d`). Covers the health check, the public-only list
+invariant, bbox filtering + range guard, single-spot 404s (including private
+spots returning 404), seed idempotency, and snapshot/schema conformance.
+
 ## Notes
 
 - `geom` (PostGIS `geography(Point,4326)`) is the source of truth for location.
