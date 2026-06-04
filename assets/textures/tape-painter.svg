@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- blue painter's tape: semi-translucent blue, crisp-ish edges with small nicks. ~95 long. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="95" height="28" viewBox="0 0 95 28">
+  <defs>
+    <filter id="painter-noise">
+      <feTurbulence type="fractalNoise" baseFrequency="1.8" numOctaves="1" seed="17"/>
+      <feColorMatrix values="0 0 0 0 0.2
+                             0 0 0 0 0.35
+                             0 0 0 0 0.55
+                             0 0 0 0.18 0"/>
+    </filter>
+  </defs>
+  <path fill="#5b9bd5" fill-opacity="0.82"
+    d="M2,3 L5,5 L9,2 L13,5 L17,3 L21,5 L24,2 L28,5 L32,3
+       L36,5 L40,2 L44,5 L48,3 L52,5 L56,2 L60,5 L64,3 L68,5
+       L72,2 L76,5 L80,3 L84,5 L88,2 L92,5 L95,8 L93,12 L95,16
+       L92,20 L94,24 L91,27 L86,25 L80,28 L72,26 L62,28 L52,26
+       L42,28 L32,26 L22,28 L14,26 L7,28 L3,25 L0,21 L2,17
+       L0,13 L3,9 L1,6 Z"/>
+  <!-- darker interior band so it doesn't look like a flat shape -->
+  <rect x="4" y="9" width="87" height="10" fill="#3f7ab0" fill-opacity="0.18"/>
+  <rect x="0" y="0" width="95" height="28" filter="url(#painter-noise)" opacity="0.5"/>
+</svg>

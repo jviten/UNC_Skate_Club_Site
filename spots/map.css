@@ -1,0 +1,286 @@
+/* ============================================================
+   UNC Skate Club — spot map styles (v1)
+   Mobile-first. Full-bleed map; club chrome floats over it.
+   Palette + fonts inherited from ../styles/global.css.
+   ============================================================ */
+
+/* full-bleed: map fills the viewport, no frame */
+.spots-body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+#map {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--paper);
+}
+
+/* mute raw OSM candy colors toward warm paper-neutral so Carolina markers pop */
+.leaflet-tile-pane {
+  filter: saturate(0.55) sepia(0.08) contrast(0.95) brightness(1.02);
+}
+
+/* re-font Leaflet controls + attribution off system-sans (locked type system) */
+.leaflet-container { font-family: "Special Elite", "Courier New", monospace; }
+.leaflet-control-attribution {
+  background: rgba(240, 235, 225, 0.82);
+  color: var(--ink);
+  font-size: 10px;
+}
+.leaflet-control-attribution a { color: var(--carolina-deep); }
+
+/* square, inked zoom buttons with Anton +/- (bottom-right, away from filter bar) */
+.leaflet-bar a {
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  font-family: "Anton", sans-serif;
+}
+.leaflet-bar a:hover { background: var(--carolina); color: var(--paper); }
+.leaflet-bar { box-shadow: 2px 2px 0 var(--ink); border: 0; }
+
+/* ---------- shared chrome ---------- */
+.chrome { position: fixed; z-index: 600; }
+
+/* ---------- title block + ram-skull home (top-left) ---------- */
+.chrome--title {
+  top: 10px; left: 10px;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.home-skull img { width: 46px; height: auto; display: block; }
+.title-tape {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  padding: 4px 10px 6px;
+  transform: rotate(-2deg);
+}
+.title-tape__big {
+  display: block;
+  font-family: "Anton", sans-serif;
+  font-size: 26px; line-height: 0.9; color: var(--ink);
+  text-transform: uppercase;
+}
+.title-tape__sub {
+  display: block;
+  font-family: "Permanent Marker", cursive;
+  font-size: 12px; color: var(--ink);
+}
+
+/* ---------- masking-tape "last-saved" banner (top center) ---------- */
+.stale-banner {
+  position: fixed; z-index: 650;
+  top: 8px; left: 50%; transform: translateX(-50%) rotate(-1.5deg);
+  background: var(--paper-fallback);
+  border: 1px dashed var(--ink);
+  font-family: "Special Elite", monospace;
+  font-size: 12px; color: var(--ink);
+  padding: 4px 14px;
+  opacity: 0.94;
+}
+
+/* ---------- submit (dark in v1) ---------- */
+.submit-dark {
+  bottom: 120px; right: 12px;     /* clear of zoom control + filter strip */
+  font-family: "Permanent Marker", cursive;
+  font-size: 13px; padding: 6px 12px;
+  background: var(--ink); color: var(--paper);
+  border: 2px solid var(--ink);
+  opacity: 0.85; cursor: not-allowed;
+}
+
+/* ============================================================
+   MARKERS — divIcon capsule "spot tags"
+   one constant Carolina capsule; glyph = type (the only differentiator).
+   bust is NOT on the marker — it lives in the filter chips + the popup.
+   ============================================================ */
+.spot-pin { background: transparent; border: none; }
+
+.cap {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  width: 30px; height: 24px;
+  margin: 6px auto 0;                 /* leaves room for the notch */
+  background: var(--carolina);
+  color: var(--carolina-deep);         /* glyph color (currentColor) */
+  border: 2px solid var(--carolina-deep);
+  /* bone halo separates every marker from any base-tile color */
+  box-shadow: 0 0 0 2px var(--paper-fallback);
+  border-radius: 12px / 10px;          /* stadium/lozenge; overrides global square */
+}
+.cap__glyph { width: 17px; height: 17px; display: block; }
+.cap__notch {
+  position: absolute; left: 50%; bottom: -7px;
+  transform: translateX(-60%);         /* off-center-left, not robotically symmetric */
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid var(--carolina-deep);
+}
+/* magenta video tick (only when a spot has clips) */
+.cap__tick {
+  position: absolute; top: -4px; right: -4px;
+  width: 7px; height: 7px;
+  background: var(--magenta);
+  border: 1.5px solid var(--paper-fallback);
+}
+
+/* ============================================================
+   FILTER STRIP (bottom, thumb zone) — doubles as legend
+   ============================================================ */
+.filter-strip {
+  bottom: 0; left: 0; right: 0;
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+  background-image: url("../assets/textures/griptape.svg");
+  background-size: 240px; background-repeat: repeat;
+  background-color: #171717;
+  border-top: 2px solid var(--ink);
+}
+.filter-row {
+  display: flex; align-items: center; gap: 6px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.filter-row::-webkit-scrollbar { display: none; }
+.filter-row__label {
+  flex: 0 0 auto;
+  font-family: "Permanent Marker", cursive;
+  font-size: 13px; color: var(--paper);
+}
+
+/* chips = mini capsule tags. inactive = bone/ink outline; active = filled (hard flip) */
+.chip {
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: "Cabin Sketch", cursive; font-weight: 700;
+  font-size: 13px; line-height: 1;
+  padding: 5px 10px;
+  background: var(--paper); color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 13px;
+  cursor: pointer;
+}
+.chip__glyph { width: 15px; height: 15px; color: var(--ink); }
+.chip--type.is-active { background: var(--carolina); color: var(--paper); border-color: var(--carolina-deep); }
+.chip--type.is-active .chip__glyph { color: var(--paper); }
+
+/* bust chips ARE the legend — each fills its own bust color when active */
+.chip--bust-chill.is-active   { background: var(--carolina); color: var(--paper); border-color: var(--carolina-deep); }
+.chip--bust-caution.is-active { background: var(--paper-fallback); color: var(--ink); border-color: var(--carolina-deep); }
+.chip--bust-hot.is-active     { background: var(--ink); color: var(--paper-fallback); }
+.chip--reset { align-self: flex-start; }
+
+/* ---------- empty-filter taped note ---------- */
+.empty-note {
+  position: fixed; z-index: 620;
+  top: 42%; left: 50%; transform: translate(-50%, -50%) rotate(-2deg);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  font-family: "Permanent Marker", cursive;
+  font-size: 16px; color: var(--ink);
+  padding: 12px 18px; max-width: 80vw; text-align: center;
+}
+
+/* ============================================================
+   DETAIL SHEET — cream torn-paper bottom sheet (mobile)
+   ============================================================ */
+.sheet {
+  position: fixed; z-index: 700;
+  left: 0; right: 0; bottom: 0;
+  max-height: 62vh; overflow-y: auto;
+  background: var(--paper);
+  /* torn top edge: one background-image fringe, no blur stack */
+  border-top: 3px solid var(--ink);
+  box-shadow: 0 -3px 0 var(--ink);
+  padding: 18px 18px calc(20px + env(safe-area-inset-bottom, 0px));
+}
+.sheet[hidden] { display: none; }
+.sheet__tape {
+  position: absolute; top: -8px; left: 22px;
+  width: 84px; height: 26px;
+  background: url("../assets/textures/tape-masking.svg") center / 100% 100% no-repeat;
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+.sheet__close {
+  position: absolute; top: 8px; right: 10px;
+  width: 34px; height: 34px;
+  background: transparent; border: none; color: var(--ink);
+  cursor: pointer;
+}
+.sheet__close svg { width: 100%; height: 100%; }
+
+.sheet__name {
+  font-family: "Anton", sans-serif; font-weight: 400;
+  font-size: 34px; line-height: 0.95; color: var(--ink);
+  text-transform: uppercase; margin-bottom: 8px; padding-right: 36px;
+}
+.sheet__tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+.tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: "Cabin Sketch", cursive; font-weight: 700; font-size: 13px;
+  padding: 3px 9px; border: 2px solid var(--carolina-deep); border-radius: 12px;
+  background: var(--carolina); color: var(--paper);
+}
+.tag svg { width: 15px; height: 15px; }
+.tag--bust-chill   { background: var(--carolina); color: var(--paper); }
+.tag--bust-caution { background: var(--paper-fallback); color: var(--ink); }
+.tag--bust-hot     { background: var(--ink); color: var(--paper-fallback); border-color: var(--ink); }
+.sheet__bustword {
+  font-family: "Permanent Marker", cursive; font-size: 14px; color: var(--ink);
+  margin-bottom: 10px;
+}
+
+/* photo: taped-snapshot look — thin ink border, slight rotation */
+.sheet__photo-wrap { margin: 10px 0; }
+.sheet__photo {
+  width: 100%; height: auto;
+  border: 2px solid var(--ink);
+  transform: rotate(-1.2deg);
+}
+
+.sheet__facts {
+  font-family: "Special Elite", monospace; font-size: 13px; color: var(--ink);
+  margin: 8px 0 6px;
+}
+.sheet__notes {
+  font-family: "Permanent Marker", cursive; font-size: 15px; line-height: 1.3;
+  color: var(--ink); margin-bottom: 8px;
+}
+.sheet__clips { font-family: "Special Elite", monospace; font-size: 13px; color: var(--magenta); }
+.sheet__verified {
+  font-family: "Special Elite", monospace; font-size: 11px;
+  color: var(--ink); opacity: 0.6; margin-top: 6px;
+}
+
+/* ============================================================
+   LOADING STAMP — ram skull on cream, not a spinner
+   ============================================================ */
+.load-stamp {
+  position: fixed; z-index: 800;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  background: var(--paper); border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  padding: 18px 24px;
+}
+.load-stamp img { width: 64px; height: auto; }
+.load-stamp span { font-family: "Permanent Marker", cursive; font-size: 15px; color: var(--ink); }
+
+/* ============================================================
+   DESKTOP — sheet becomes a side panel; filter strip breathes
+   ============================================================ */
+@media (min-width: 760px) {
+  .sheet {
+    top: 0; bottom: 0; left: auto; right: 0;
+    width: 360px; max-height: 100vh;
+    border-top: none; border-left: 3px solid var(--ink);
+    box-shadow: -3px 0 0 var(--ink);
+  }
+  .filter-strip { right: auto; max-width: 640px; }
+}

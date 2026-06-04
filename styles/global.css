@@ -1,0 +1,464 @@
+/* ============================================================
+   UNC Skate Club — global stylesheet
+   Implements locked-spec §1–§5 + v2 deltas, above-the-fold only.
+   ============================================================ */
+
+/* ---------- 1. palette ---------- */
+:root {
+  --carolina:       #4B9CD3;
+  --carolina-deep:  #1d3a5f;
+  --paper:          #f0ebe1;
+  --paper-fallback: #ebe4d2;
+  --ink:            #14171a;
+  --wall:           #111111;       /* kept for inner-tear fallback */
+  --magenta:        #E5197F;
+  --purple:         #6E3AA8;
+}
+
+/* ---------- reset-ish ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0;             /* square corners only, sitewide */
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- base typography ---------- */
+body {
+  background-color: var(--wall);
+  background-image: url("../assets/textures/wall-bulletin-board.jpg");
+  background-size: 600px;
+  background-repeat: repeat;
+  color: var(--ink);
+  font-family: "Special Elite", "Courier New", monospace;  /* fallback is still a typewriter — never generic sans */
+  font-size: 16px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- 3. frame architecture ---------- */
+
+/* paper: cream sheet, ~95vw / 95vh, centered, sits on the wall */
+.paper {
+  position: relative;
+  width: 95vw;
+  margin: 2.5vh auto;
+  min-height: 95vh;
+  background-color: var(--paper);
+  /* hard ink offset to ground the sheet against the wall, no soft shadow */
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+/* paper surface: tiled crop of the white ripped-paper webp (interior,
+   not its torn edges) layered over the cream so the sheet reads as a
+   real fibrous surface. multiply blend keeps the cream tone but lets
+   the photographic fiber come through. paper-texture.svg sits on top
+   as fine secondary noise. */
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-color: transparent;
+  background-image:
+    url("../assets/textures/paper-texture.svg"),
+    url("../assets/textures/white-ripped-paper-png.webp");
+  background-repeat: repeat, repeat;
+  background-size: 400px 400px, 520px auto;
+  /* offset position to crop AWAY from the source's torn fringe, into the white interior */
+  background-position: 0 0, -240px -180px;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+}
+
+/* torn edges — one real photographic tear, reused four times via rotation + offset */
+.edge {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+  background-image: url("../assets/textures/white-ripped-paper-png.webp");
+  background-repeat: no-repeat;
+}
+.edge--top {
+  top: -28px;
+  left: -28px;
+  right: -28px;
+  height: 60px;
+  background-position: 0 0;
+  background-size: auto 60px;
+  /* native orientation */
+}
+.edge--bottom {
+  bottom: -28px;
+  left: -28px;
+  right: -28px;
+  height: 60px;
+  background-position: -200px 0;
+  background-size: auto 60px;
+  transform: rotate(180deg);
+}
+/* sides: strip straddles the paper boundary. inner half overlaps the
+   cream paper (white interior of the texture sits on top, tinted to
+   cream by a sepia/brightness filter so the seam doesn't read white);
+   outer half hangs into the wall, carrying the dark torn fringe.
+   left/right use different background-position offsets so the tears
+   aren't twins. */
+.edge--left {
+  top: 0;
+  left: 0;
+  width: 100vh;
+  height: 110px;
+  background-position: -180px 0;
+  background-size: auto 110px;
+  transform-origin: top left;
+  /* 55px = half the 110px strip thickness; keep these in sync if thickness changes */
+  transform: rotate(-90deg) translateX(-100%) translateY(-55px);
+  filter: sepia(0.35) brightness(0.94) saturate(0.55);
+}
+.edge--right {
+  top: 0;
+  right: 0;
+  width: 100vh;
+  height: 110px;
+  background-position: -540px 0;
+  background-size: auto 110px;
+  transform-origin: top right;
+  /* 55px = half the 110px strip thickness; keep these in sync if thickness changes */
+  transform: rotate(90deg) translateX(100%) translateY(-55px);
+  filter: sepia(0.35) brightness(0.94) saturate(0.55);
+}
+
+/* tape — four corner pieces, asymmetric rotations/lengths/types (unchanged from v1) */
+.tape {
+  position: absolute;
+  z-index: 5;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transform-origin: center center;
+}
+.tape--tl {
+  top: -18px;
+  left: 4vw;
+  width: 130px;
+  height: 34px;
+  background-image: url("../assets/textures/tape-scotch.svg");
+  transform: rotate(12deg);
+}
+.tape--tr {
+  top: -14px;
+  right: 7vw;
+  width: 105px;
+  height: 30px;
+  background-image: url("../assets/textures/tape-masking.svg");
+  transform: rotate(-7deg);
+}
+.tape--bl {
+  bottom: -10px;
+  left: 9vw;
+  width: 95px;
+  height: 28px;
+  background-image: url("../assets/textures/tape-painter.svg");
+  transform: rotate(4deg);
+}
+.tape--br {
+  bottom: -18px;
+  right: 5vw;
+  width: 140px;
+  height: 38px;
+  background-image: url("../assets/textures/tape-duct.svg");
+  transform: rotate(-9deg);
+}
+
+/* paper interior padding so content doesn't kiss the torn edges */
+.paper__inner {
+  position: relative;
+  z-index: 2;
+  padding: 36px 48px 24px;
+}
+
+/* ---------- 4 + 5. hero / nav / meeting ---------- */
+
+/* hero band — plain cream paper, contained inside the flyer.
+   Holds the ONE big ram + Anton wordmark + capsule. */
+.hero {
+  position: relative;
+  margin: 0 -48px;                 /* bleed to torn edges left/right; capped top/bottom */
+  height: 45vh;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 0 6% 0 0;
+  overflow: visible;               /* allow horns to crop through torn top edge */
+}
+
+/* the one big ram skull — sits in the hero band, ~280–320px,
+   horns hard-crop through the torn top edge */
+.hero__skull {
+  width: 320px;
+  max-width: 38%;
+  min-width: 240px;
+  margin-left: -28px;              /* slight crop off the left */
+  margin-top: -120px;              /* push up through torn top edge */
+  flex-shrink: 0;
+  /* z-index 2: above griptape band (hero bg) and wordmark/capsule (z 5),
+     but BELOW the torn top edge (z 3) so the horns still crop through.
+     ...except we need the logo above the wordmark visually too,
+     so it sits at z 6 in the hero stacking context, while the .edge--top
+     (z 3 in the .paper stacking context) lives in a separate parent and
+     still paints on top near the top intersection. */
+  z-index: 6;
+  position: relative;
+}
+
+/* Anton wordmark — sits immediately right of the ram's horns */
+.hero__title {
+  font-family: "Anton", "Special Elite", "Courier New", monospace;
+  font-weight: 400;
+  font-size: 120px;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-transform: uppercase;
+  flex-shrink: 1;
+  position: relative;
+  z-index: 5;
+}
+.hero__title span {
+  display: block;
+}
+
+.hero__capsule {
+  position: relative;
+  margin-left: auto;
+  padding: 28px 42px;
+  background: var(--carolina);
+  color: var(--paper);
+  border: 3px solid var(--carolina-deep);
+  /* hand-drawn-ish slight non-rect: faked via clip-path with irregular corners */
+  clip-path: polygon(
+    2% 6%, 18% 2%, 38% 7%, 60% 1%, 82% 8%, 98% 4%,
+    96% 26%, 99% 52%, 97% 78%, 99% 96%,
+    78% 98%, 56% 94%, 32% 99%, 12% 95%, 2% 98%,
+    4% 74%, 1% 50%, 3% 28%
+  );
+  font-family: "Permanent Marker", "Special Elite", "Courier New", monospace;
+  text-align: center;
+  flex-shrink: 0;
+  z-index: 5;
+}
+.hero__capsule .line1 {
+  display: block;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.hero__capsule .line2 {
+  display: block;
+  font-size: 18px;
+  line-height: 1;
+  margin-top: 10px;
+  letter-spacing: 0.04em;
+}
+
+/* hand-drawn line tying capsule visually to the band — short cream ink scribble */
+.hero__scribble {
+  position: absolute;
+  right: 6%;
+  bottom: 14%;
+  width: 180px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* nav row — griptape band, full inner paper width, below the hero band */
+.nav {
+  margin: 26px -48px 0;            /* bleed to torn edges left/right, matching hero */
+  padding: 18px 48px;
+  background-color: #171717;
+  background-image: url("../assets/textures/skateboard-grip-tape.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.nav__list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-family: "Cabin Sketch", "Special Elite", "Courier New", monospace;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.nav__list li + li::before {
+  content: "·";
+  padding-right: 14px;
+  color: var(--paper);
+}
+
+.nav__list a {
+  color: var(--paper);
+  border-bottom: 2px solid transparent;
+  transition: border-color 80ms linear, background-color 80ms linear, color 80ms linear;
+}
+.nav__list a:hover {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* meeting info — written-on-the-flyer, on cream paper below nav */
+.meeting {
+  margin-top: 18px;
+  font-family: "Permanent Marker", "Special Elite", "Courier New", monospace;
+  color: var(--ink);
+}
+.meeting__when {
+  font-size: 28px;
+  line-height: 1.05;
+}
+.meeting__welcome {
+  margin-top: 6px;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+/* ---------- animated skate handrail divider ---------- */
+.handrail {
+  width: 100%;
+  display: block;
+  margin: 20px 0;                  /* ~20px above/below: natural breathing between nav and meeting */
+}
+
+.skater {
+  animation: grind var(--speed, 9s) ease-in-out infinite;
+}
+@keyframes grind {
+  0%   { transform: translateX(0px); }
+  45%  { transform: translateX(1280px); }
+  48%  { transform: translateX(1280px) translateY(-3px); }
+  52%  { transform: translateX(1280px); }
+  100% { transform: translateX(0px); }
+}
+.sparks circle { animation: spark .32s linear infinite; opacity: 0; }
+.sparks circle:nth-child(2){ animation-delay:.08s }
+.sparks circle:nth-child(3){ animation-delay:.16s }
+.sparks circle:nth-child(4){ animation-delay:.24s }
+@keyframes spark { 0%,100% { opacity: 0; } 50% { opacity: .9; } }
+
+/* ---------- inner tear (single, asymmetric) ---------- */
+.inner-tear {
+  position: relative;
+  margin: 36px 0 16px;
+  margin-left: 22%;                /* asymmetric — not centered */
+  width: 110px;
+  height: 8px;
+  background: url("../assets/textures/inner-tear.svg") center / 100% 100% no-repeat;
+  transform: rotate(-3deg);
+}
+
+/* page ends shortly after the inner tear */
+.tail {
+  height: 40px;
+}
+
+/* ============================================================
+   mobile degradation — under 600px
+   ============================================================ */
+@media (max-width: 600px) {
+  .paper {
+    width: 100vw;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  /* drop side torn edges; paper goes edge-to-edge horizontally */
+  .edge--left,
+  .edge--right {
+    display: none;
+  }
+
+  /* drop TR + BL tape; keep TL scotch + BR duct for the diagonal */
+  .tape--tr,
+  .tape--bl {
+    display: none;
+  }
+  .tape--tl,
+  .tape--br {
+    width: 80px;
+    height: 22px;
+  }
+
+  .paper__inner {
+    padding: 28px 18px 18px;
+  }
+
+  .hero {
+    margin: 0 -18px;
+    height: auto;
+    min-height: 260px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 12px;
+    gap: 12px;
+  }
+  .hero__skull {
+    width: 200px;
+    max-width: 60%;
+    min-width: 160px;
+    margin-left: -10px;
+    margin-top: -70px;
+  }
+  .hero__title {
+    font-size: 64px;
+    line-height: 0.9;
+  }
+  .hero__capsule {
+    margin: 4px auto 0;
+    padding: 18px 26px;
+  }
+  .hero__capsule .line1 {
+    font-size: 22px;
+  }
+  .hero__capsule .line2 {
+    font-size: 14px;
+  }
+
+  .nav {
+    margin: 20px -18px 0;
+    padding: 14px 18px;
+  }
+
+  .meeting__when {
+    font-size: 24px;
+  }
+  .meeting__welcome {
+    font-size: 14px;
+  }
+
+  .inner-tear {
+    margin-left: 30%;
+  }
+}

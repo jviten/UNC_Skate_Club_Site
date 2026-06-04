@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Skate Club at UNC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Bowlby+One&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#e9e3d1;
+    --ink:#16140f;
+    --blue:#5aa9e6;
+    --cork-1:#b88b56;
+    --cork-2:#8a5e34;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#000;color:var(--ink);font-family:"Special Elite",monospace;}
+  body{
+    min-height:100vh;
+    /* cork board */
+    background-color:#a06f3f;
+    background-image:
+      radial-gradient(circle at 12% 22%, rgba(0,0,0,.18) 0 2px, transparent 3px),
+      radial-gradient(circle at 78% 9%, rgba(255,255,255,.10) 0 2px, transparent 3px),
+      radial-gradient(circle at 34% 78%, rgba(0,0,0,.22) 0 2.5px, transparent 3.5px),
+      radial-gradient(circle at 88% 64%, rgba(0,0,0,.18) 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 55% 40%, rgba(255,255,255,.06) 0 2px, transparent 3px),
+      radial-gradient(circle at 18% 60%, rgba(0,0,0,.14) 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 64% 88%, rgba(255,255,255,.08) 0 2px, transparent 3px),
+      radial-gradient(circle at 6% 90%, rgba(0,0,0,.18) 0 2px, transparent 3px),
+      repeating-radial-gradient(circle at 50% 50%, rgba(0,0,0,.05) 0 1px, transparent 1px 4px),
+      linear-gradient(135deg, #b88b56, #8a5e34);
+    padding:28px 36px 80px;
+  }
+
+  /* ------ HERO (grip tape) ------ */
+  .hero{
+    position:relative;
+    height:430px;
+    margin-left:0;
+    background:
+      radial-gradient(circle at 10% 20%, rgba(255,255,255,.05) 0 1px, transparent 2px),
+      radial-gradient(circle at 35% 70%, rgba(255,255,255,.04) 0 1px, transparent 2px),
+      radial-gradient(circle at 70% 30%, rgba(255,255,255,.05) 0 1.2px, transparent 2px),
+      radial-gradient(circle at 88% 80%, rgba(255,255,255,.04) 0 1px, transparent 2px),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.6 -.4'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' fill='%23222'/></svg>"),
+      linear-gradient(180deg,#262626,#1a1a1a);
+    background-size:auto, auto, auto, auto, 240px 240px, auto;
+    background-color:#1a1a1a;
+    overflow:visible;
+    border:1px solid #000;
+    box-shadow:0 6px 0 rgba(0,0,0,.25), inset 0 0 60px rgba(0,0,0,.55);
+  }
+  /* torn paper top-left */
+  .torn{
+    position:absolute; top:-22px; left:-26px; width:280px; height:90px;
+    background:#f4efe1;
+    clip-path: polygon(0% 30%, 6% 15%, 14% 28%, 22% 12%, 32% 26%, 42% 10%, 56% 24%, 68% 8%, 82% 22%, 96% 12%, 100% 30%, 100% 80%, 92% 92%, 78% 78%, 66% 90%, 54% 76%, 40% 88%, 28% 74%, 14% 86%, 4% 72%, 0% 80%);
+    box-shadow: 0 2px 0 rgba(0,0,0,.15);
+  }
+  .torn::after{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 70% 40%, #ead67a 0 26px, transparent 28px),
+      radial-gradient(circle at 30% 60%, #c9c3b0 0 14px, transparent 16px);
+    opacity:.65;
+    mix-blend-mode:multiply;
+  }
+
+  .logo{
+    position:absolute; left:36px; top:34px; width:170px; height:170px;
+    display:flex; align-items:center; justify-content:center;
+    z-index:3;
+  }
+  .logo svg{width:100%; height:100%;}
+
+  .hero-title{
+    position:absolute; left:260px; top:60px;
+    font-family:"Bowlby One","Anton",Impact,sans-serif;
+    color:#ece3c8;
+    font-size:118px;
+    line-height:.92;
+    letter-spacing:.5px;
+    text-shadow:0 4px 0 rgba(0,0,0,.55);
+    margin:0;
+  }
+  .hero-title span{display:block;}
+
+  /* blue tag */
+  .tag{
+    position:absolute; right:60px; top:130px;
+    background:var(--blue);
+    color:#fff;
+    font-family:"Permanent Marker",cursive;
+    text-align:center;
+    padding:18px 32px 22px;
+    transform:rotate(-3deg);
+    clip-path: polygon(2% 8%, 14% 2%, 30% 10%, 48% 0%, 64% 12%, 82% 4%, 98% 14%, 96% 40%, 100% 72%, 88% 92%, 70% 86%, 52% 100%, 36% 88%, 18% 98%, 4% 86%, 0% 60%);
+    box-shadow:0 6px 0 rgba(0,0,0,.2);
+  }
+  .tag .big{font-size:38px; line-height:1; letter-spacing:1px;}
+  .tag .small{font-size:16px; letter-spacing:2px; margin-top:6px;}
+
+  /* squiggle arrow */
+  .squiggle{
+    position:absolute; right:80px; bottom:30px; width:200px; height:40px;
+    stroke:#ece3c8; stroke-width:3; fill:none; stroke-linecap:round;
+  }
+
+  /* film-strip number */
+  .film-num{
+    position:absolute; left:14px; bottom:18px;
+    color:#ece3c8; opacity:.55; font-size:14px;
+    transform:rotate(-90deg); transform-origin:left bottom;
+    letter-spacing:3px;
+  }
+
+  /* ------ NAV + RAIL ------ */
+  .nav{
+    margin-top:28px;
+    display:flex; gap:34px;
+    font-family:"Special Elite",monospace;
+    font-size:18px;
+    letter-spacing:2px;
+    color:#3a342a;
+    text-transform:uppercase;
+    padding:0 4px 16px;
+    align-items:center;
+  }
+  .nav a{color:inherit; text-decoration:none;}
+  .nav a:hover{color:#000;}
+  .nav .dot{opacity:.4;}
+
+  /* RAIL */
+  .rail-wrap{
+    position:relative;
+    height:96px;        /* room for posts + skater above */
+    margin:0 0 18px;
+  }
+  .rail-wrap svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible;}
+
+  /* ------ BELOW RAIL ------ */
+  .meet{
+    position:relative;
+    min-height:180px;
+    padding:6px 4px 60px;
+  }
+  .meet h2{
+    font-family:"Permanent Marker",cursive;
+    font-size:34px;
+    margin:0 0 6px;
+    letter-spacing:1px;
+    color:#15110b;
+  }
+  .meet p{
+    margin:0;
+    font-size:15px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:#2a241a;
+  }
+
+  /* tape scraps */
+  .scrap{
+    position:absolute; height:24px; width:130px;
+    clip-path: polygon(0 30%, 6% 0, 14% 40%, 22% 8%, 32% 36%, 44% 6%, 56% 38%, 68% 10%, 80% 36%, 92% 8%, 100% 30%, 100% 70%, 92% 100%, 80% 64%, 68% 92%, 56% 64%, 44% 96%, 32% 64%, 22% 92%, 14% 64%, 6% 100%, 0 70%);
+    opacity:.85;
+  }
+  .scrap.blue{background:#7ab5dc; bottom:34px; left:160px; transform:rotate(-4deg);}
+  .scrap.black{background:#1a1a1a; bottom:34px; right:140px; transform:rotate(6deg); width:160px;}
+
+  /* wavy stroke divider in the empty area */
+  .wave{
+    display:block;
+    margin:30px auto 0;
+    stroke:#1a1a1a; fill:none; stroke-width:3; stroke-linecap:round;
+  }
+
+  @keyframes grind {
+    0%   { transform: translateX(-30px); }
+    45%  { transform: translateX(calc(100% - 220px)); }
+    50%  { transform: translateX(calc(100% - 220px)) translateY(-2px); }
+    55%  { transform: translateX(calc(100% - 220px)); }
+    100% { transform: translateX(-30px); }
+  }
+  @keyframes sparkle {
+    0%,100%{opacity:0; transform:scale(.6);}
+    50%{opacity:.9; transform:scale(1);}
+  }
+  .skater-group{
+    animation: grind 9s ease-in-out infinite;
+    transform-origin: center;
+  }
+  .sparks circle{
+    animation: sparkle 0.35s linear infinite;
+  }
+  .sparks circle:nth-child(2){animation-delay:.08s;}
+  .sparks circle:nth-child(3){animation-delay:.16s;}
+  .sparks circle:nth-child(4){animation-delay:.24s;}
+
+  @media (max-width:900px){
+    .hero{height:auto; padding-bottom:30px;}
+    .hero-title{position:static; padding:30px 24px 0; font-size:64px;}
+    .logo{position:static; margin:24px 0 0 24px;}
+    .tag{position:static; display:inline-block; margin:20px 24px;}
+    .squiggle, .film-num{display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero" data-screen-label="01 Hero">
+    <div class="torn"></div>
+
+    <!-- placeholder logo (original mark — angular shield with board) -->
+    <div class="logo" aria-label="club mark placeholder">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="rough">
+            <feTurbulence baseFrequency="0.9" numOctaves="2" seed="3"/>
+            <feDisplacementMap in="SourceGraphic" scale="2"/>
+          </filter>
+        </defs>
+        <g filter="url(#rough)">
+          <!-- shield -->
+          <path d="M100 18 L168 44 L160 118 Q160 158 100 184 Q40 158 40 118 L32 44 Z"
+                fill="#1f3a55" stroke="#0a0a0a" stroke-width="4"/>
+          <!-- skateboard deck through it -->
+          <rect x="22" y="96" width="156" height="20" rx="10" ry="10"
+                fill="#ece3c8" stroke="#0a0a0a" stroke-width="3" transform="rotate(-14 100 106)"/>
+          <!-- wheels -->
+          <circle cx="48" cy="118" r="7" fill="#0a0a0a" transform="rotate(-14 100 106)"/>
+          <circle cx="152" cy="118" r="7" fill="#0a0a0a" transform="rotate(-14 100 106)"/>
+          <!-- "SC" mark -->
+          <text x="100" y="78" text-anchor="middle"
+                font-family="Bowlby One, sans-serif" font-size="34" fill="#ece3c8"
+                stroke="#0a0a0a" stroke-width="1">SC</text>
+          <text x="100" y="158" text-anchor="middle"
+                font-family="Special Elite, monospace" font-size="14" fill="#ece3c8"
+                letter-spacing="3">CHAPEL HILL</text>
+        </g>
+      </svg>
+    </div>
+
+    <h1 class="hero-title">
+      <span>SKATE CLUB</span>
+      <span>AT UNC</span>
+    </h1>
+
+    <div class="tag">
+      <div class="big">SPRING 26</div>
+      <div class="small">CHAPEL HILL</div>
+    </div>
+
+    <svg class="squiggle" viewBox="0 0 200 40" preserveAspectRatio="none">
+      <path d="M2 22 Q 14 4, 28 22 T 56 22 T 84 22 T 112 22 T 140 22 T 168 22 L 188 22 L 180 14 M188 22 L 180 30"/>
+    </svg>
+
+    <div class="film-num">— 074 —</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#spots">SPOTS</a><span class="dot">·</span>
+    <a href="#meetings">MEETINGS</a><span class="dot">·</span>
+    <a href="#about">ABOUT</a><span class="dot">·</span>
+    <a href="#ig">IG</a>
+  </nav>
+
+  <!-- ===== HANDRAIL ===== -->
+  <div class="rail-wrap" aria-hidden="true">
+    <svg viewBox="0 0 1600 96" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="chrome" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0"   stop-color="#f6f6f6"/>
+          <stop offset=".35" stop-color="#9aa1a8"/>
+          <stop offset=".55" stop-color="#3a3f44"/>
+          <stop offset=".85" stop-color="#7d848c"/>
+          <stop offset="1"   stop-color="#cdd2d6"/>
+        </linearGradient>
+        <linearGradient id="chrome-post" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0"   stop-color="#cdd2d6"/>
+          <stop offset=".4"  stop-color="#3a3f44"/>
+          <stop offset=".7"  stop-color="#9aa1a8"/>
+          <stop offset="1"   stop-color="#cdd2d6"/>
+        </linearGradient>
+      </defs>
+
+      <!-- shadow under rail -->
+      <ellipse cx="800" cy="78" rx="780" ry="3" fill="rgba(0,0,0,.18)"/>
+
+      <!-- posts (anchor plates at floor level y=82) -->
+      <g>
+        <!-- left post -->
+        <path d="M118 8 L138 8 L150 82 L106 82 Z" fill="url(#chrome-post)" stroke="#1a1a1a" stroke-width="1.5"/>
+        <rect x="100" y="80" width="56" height="6" fill="#2a2a2a"/>
+        <!-- right post -->
+        <path d="M1462 8 L1482 8 L1494 82 L1450 82 Z" fill="url(#chrome-post)" stroke="#1a1a1a" stroke-width="1.5"/>
+        <rect x="1444" y="80" width="56" height="6" fill="#2a2a2a"/>
+      </g>
+
+      <!-- rail bar -->
+      <rect x="80" y="6" width="1440" height="14" rx="7" ry="7"
+            fill="url(#chrome)" stroke="#0e0e0e" stroke-width="1.5"/>
+
+      <!-- highlight stripe along top -->
+      <rect x="92" y="8" width="1416" height="2" fill="#ffffff" opacity=".7"/>
+      <!-- end caps -->
+      <ellipse cx="80" cy="13" rx="6" ry="7" fill="#2a2f33" stroke="#0e0e0e" stroke-width="1.5"/>
+      <ellipse cx="1520" cy="13" rx="6" ry="7" fill="#2a2f33" stroke="#0e0e0e" stroke-width="1.5"/>
+
+      <!-- grind scuffs on bar -->
+      <g opacity=".55">
+        <rect x="220" y="11" width="60" height="2" fill="#fff"/>
+        <rect x="430" y="11" width="120" height="2" fill="#fff"/>
+        <rect x="720" y="11" width="40" height="2" fill="#fff"/>
+        <rect x="980" y="11" width="180" height="2" fill="#fff"/>
+        <rect x="1250" y="11" width="80" height="2" fill="#fff"/>
+      </g>
+
+      <!-- ===== SKATER (silhouette doing 50-50 grind) ===== -->
+      <g class="skater-group">
+        <g transform="translate(1240 -42)">
+          <!-- sparks -->
+          <g class="sparks" fill="#ffd166">
+            <circle cx="22" cy="58" r="2.2"/>
+            <circle cx="14" cy="62" r="1.6"/>
+            <circle cx="30" cy="62" r="1.8"/>
+            <circle cx="6"  cy="56" r="1.4"/>
+          </g>
+
+          <g fill="#0a0a0a">
+            <!-- board (slightly tilted) -->
+            <g transform="rotate(-2 40 52)">
+              <rect x="6" y="48" width="78" height="6" rx="3"/>
+              <!-- nose/tail bumps -->
+              <ellipse cx="6"  cy="51" rx="4" ry="3.2"/>
+              <ellipse cx="84" cy="51" rx="4" ry="3.2"/>
+              <!-- trucks -->
+              <rect x="18" y="52" width="4" height="5"/>
+              <rect x="68" y="52" width="4" height="5"/>
+              <!-- wheels (peeking) -->
+              <circle cx="20" cy="58" r="3"/>
+              <circle cx="70" cy="58" r="3"/>
+            </g>
+
+            <!-- legs: bent knees, front leg forward -->
+            <!-- back leg -->
+            <path d="M30 48 L34 30 L42 16 L46 18 L40 32 L36 48 Z"/>
+            <!-- front leg (more bent) -->
+            <path d="M58 48 L54 34 L48 22 L52 18 L60 30 L64 48 Z"/>
+
+            <!-- torso, leaning forward -->
+            <path d="M40 24 Q 44 6 60 4 Q 66 4 64 14 L58 28 Z"/>
+
+            <!-- arm trailing back -->
+            <path d="M44 14 Q 30 14 22 24 L 26 28 Q 36 22 48 18 Z"/>
+            <!-- arm forward -->
+            <path d="M60 10 Q 76 10 84 22 L 80 26 Q 70 18 58 16 Z"/>
+
+            <!-- head with cap -->
+            <circle cx="64" cy="-4" r="7"/>
+            <path d="M55 -6 Q 64 -16 74 -6 L 74 -2 L 55 -2 Z"/>
+            <!-- cap brim -->
+            <path d="M70 -4 L 84 -2 L 84 2 L 70 0 Z"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <section class="meet" id="meetings" data-screen-label="02 Meeting">
+    <h2>THURSDAYS · 6:30 · THE PIT</h2>
+    <p>Any board. Any wheels. First time on one is fine.</p>
+
+    <svg class="wave" width="120" height="14" viewBox="0 0 120 14" preserveAspectRatio="none">
+      <path d="M2 7 Q 10 1 18 7 T 34 7 T 50 7 T 66 7 T 82 7 T 98 7 T 118 7"/>
+    </svg>
+
+    <div class="scrap blue"></div>
+    <div class="scrap black"></div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- griptape: irregular dark grit dots on near-black. tileable 200x200. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <filter id="grit-noise">
+      <feTurbulence type="fractalNoise" baseFrequency="3.5" numOctaves="2" seed="41" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0.12
+                             0 0 0 0 0.12
+                             0 0 0 0 0.13
+                             0 0 0 0.85 0"/>
+    </filter>
+    <filter id="grit-coarse">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="13" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0.04
+                             0 0 0 0 0.04
+                             0 0 0 0 0.05
+                             0 0 0 0.6 0"/>
+    </filter>
+  </defs>
+  <rect width="200" height="200" fill="#171717"/>
+  <rect width="200" height="200" filter="url(#grit-coarse)" opacity="0.7"/>
+  <rect width="200" height="200" filter="url(#grit-noise)" opacity="0.9"/>
+  <!-- a handful of explicit larger grit specks for depth -->
+  <g fill="#2a2a2a">
+    <circle cx="17" cy="22" r="0.9"/>
+    <circle cx="48" cy="9" r="0.7"/>
+    <circle cx="83" cy="31" r="1"/>
+    <circle cx="121" cy="18" r="0.8"/>
+    <circle cx="156" cy="27" r="0.9"/>
+    <circle cx="184" cy="11" r="0.7"/>
+    <circle cx="11" cy="64" r="0.8"/>
+    <circle cx="44" cy="58" r="0.9"/>
+    <circle cx="78" cy="71" r="0.7"/>
+    <circle cx="113" cy="55" r="1"/>
+    <circle cx="149" cy="68" r="0.8"/>
+    <circle cx="178" cy="59" r="0.7"/>
+    <circle cx="22" cy="102" r="0.9"/>
+    <circle cx="55" cy="115" r="0.7"/>
+    <circle cx="89" cy="98" r="0.8"/>
+    <circle cx="124" cy="111" r="0.9"/>
+    <circle cx="161" cy="103" r="0.7"/>
+    <circle cx="190" cy="118" r="0.8"/>
+    <circle cx="15" cy="142" r="0.7"/>
+    <circle cx="49" cy="156" r="0.9"/>
+    <circle cx="82" cy="148" r="0.8"/>
+    <circle cx="117" cy="161" r="0.7"/>
+    <circle cx="152" cy="144" r="0.9"/>
+    <circle cx="186" cy="159" r="0.8"/>
+    <circle cx="29" cy="184" r="0.7"/>
+    <circle cx="61" cy="178" r="0.9"/>
+    <circle cx="94" cy="191" r="0.7"/>
+    <circle cx="131" cy="183" r="0.8"/>
+    <circle cx="166" cy="195" r="0.9"/>
+    <circle cx="195" cy="178" r="0.7"/>
+  </g>
+</svg>

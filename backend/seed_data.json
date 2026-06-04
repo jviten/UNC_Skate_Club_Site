@@ -1,0 +1,60 @@
+[
+  {
+    "id": "oec-griptape",
+    "name": "OEC griptape ledge",
+    "lat": 35.9132,
+    "lng": -79.0558,
+    "type": "ledge",
+    "area": "Chapel Hill",
+    "bust": "chill",
+    "surface": "concrete",
+    "size": "knee-high, ~12 ft run",
+    "notes": "PLACEHOLDER coords. Concrete ledge wrapped in club-installed skate-spot griptape. Free skating, weekends best.",
+    "photos": ["assets/flyers/skate-spot-oec-griptape.png"],
+    "verified": "2026-05-20",
+    "added": "2026-05-20"
+  },
+  {
+    "id": "franklin-st-banks",
+    "name": "Franklin St banks",
+    "lat": 35.9108,
+    "lng": -79.0533,
+    "type": "transition",
+    "area": "Chapel Hill",
+    "bust": "caution",
+    "surface": "concrete",
+    "size": "mellow bank, waist height",
+    "notes": "PLACEHOLDER coords. Downtown banks off Franklin. Busts after foot traffic picks up midday.",
+    "photos": [],
+    "added": "2026-05-22"
+  },
+  {
+    "id": "weaver-st-flat",
+    "name": "Weaver St flatground",
+    "lat": 35.9106,
+    "lng": -79.0747,
+    "type": "flat",
+    "area": "Carrboro",
+    "bust": "chill",
+    "surface": "brick",
+    "size": "open plaza",
+    "notes": "PLACEHOLDER coords. Brick plaza, smooth enough for flat. Mornings are dead quiet.",
+    "photos": [],
+    "added": "2026-05-22"
+  },
+  {
+    "id": "carrboro-rail",
+    "name": "Carrboro handrail",
+    "lat": 35.9101,
+    "lng": -79.0762,
+    "type": "rail",
+    "area": "Carrboro",
+    "bust": "hot",
+    "surface": "metal",
+    "size": "6-stair rail",
+    "notes": "PLACEHOLDER coords. Steep 6-stair rail. Hot spot - expect to get moved along fast.",
+    "photos": [],
+    "submitted_by": "jinx",
+    "added": "2026-05-24"
+  }
+]

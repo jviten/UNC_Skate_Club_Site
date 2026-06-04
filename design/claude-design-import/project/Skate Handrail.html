@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Skate Handrail — asset preview</title>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  html,body{margin:0;background:#e9e3d1;font-family:ui-monospace,Menlo,monospace;color:#2a241a;}
+  .wrap{max-width:1600px;margin:0 auto;padding:80px 40px;}
+  .label{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6b6253;margin-bottom:14px;}
+  .rail{width:100%;display:block;}
+  .note{margin-top:60px;font-size:13px;line-height:1.6;color:#4a4234;max-width:640px;}
+  .swatch{display:inline-block;width:10px;height:10px;background:#0a0a0a;vertical-align:middle;margin-right:6px;}
+  code{background:#dcd4be;padding:1px 6px;border-radius:3px;}
+
+  /* skater animation — duration driven by CSS var on the SVG */
+  .skater {
+    animation: grind var(--speed, 9s) ease-in-out infinite;
+  }
+  @keyframes grind {
+    0%   { transform: translateX(0px); }
+    45%  { transform: translateX(1280px); }
+    48%  { transform: translateX(1280px) translateY(-3px); }
+    52%  { transform: translateX(1280px); }
+    100% { transform: translateX(0px); }
+  }
+  .sparks circle { animation: spark .32s linear infinite; opacity: 0; }
+  .sparks circle:nth-child(2){ animation-delay:.08s }
+  .sparks circle:nth-child(3){ animation-delay:.16s }
+  .sparks circle:nth-child(4){ animation-delay:.24s }
+  @keyframes spark { 0%,100% { opacity: 0; } 50% { opacity: .9; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+  window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "speed": 12.5,
+    "scale": 0.7,
+    "sparks": true,
+    "hat": "cap",
+    "rail": "black"
+  }/*EDITMODE-END*/;
+</script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+
+function Handrail({ speed, scale, sparks, hat, rail }) {
+  const railFill = rail === 'black' ? '#1a1a1a'
+                 : rail === 'brass' ? 'url(#brass)'
+                 : 'url(#chrome)';
+  const postFill = rail === 'black' ? '#2a2a2a'
+                 : rail === 'brass' ? 'url(#brass-post)'
+                 : 'url(#chrome-post)';
+
+  return (
+    <svg className="rail" viewBox="0 0 1600 180" xmlns="http://www.w3.org/2000/svg"
+         style={{'--speed': speed + 's'}}>
+      <defs>
+        <linearGradient id="chrome" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0"    stopColor="#f6f6f6"/>
+          <stop offset=".35"  stopColor="#9aa1a8"/>
+          <stop offset=".55"  stopColor="#3a3f44"/>
+          <stop offset=".85"  stopColor="#7d848c"/>
+          <stop offset="1"    stopColor="#cdd2d6"/>
+        </linearGradient>
+        <linearGradient id="chrome-post" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0"    stopColor="#cdd2d6"/>
+          <stop offset=".4"   stopColor="#3a3f44"/>
+          <stop offset=".7"   stopColor="#9aa1a8"/>
+          <stop offset="1"    stopColor="#cdd2d6"/>
+        </linearGradient>
+        <linearGradient id="brass" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0"    stopColor="#ffe9a8"/>
+          <stop offset=".35"  stopColor="#d3a447"/>
+          <stop offset=".55"  stopColor="#6c4a16"/>
+          <stop offset=".85"  stopColor="#a47b2a"/>
+          <stop offset="1"    stopColor="#e9c66a"/>
+        </linearGradient>
+        <linearGradient id="brass-post" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0"    stopColor="#e9c66a"/>
+          <stop offset=".4"   stopColor="#6c4a16"/>
+          <stop offset=".7"   stopColor="#a47b2a"/>
+          <stop offset="1"    stopColor="#e9c66a"/>
+        </linearGradient>
+      </defs>
+
+      <ellipse cx="800" cy="158" rx="780" ry="4" fill="rgba(0,0,0,.18)"/>
+
+      {/* posts */}
+      <g>
+        <path d="M118 138 L138 138 L150 160 L106 160 Z" fill={postFill} stroke="#0e0e0e" strokeWidth="1.5"/>
+        <rect x="100" y="158" width="56" height="6" fill="#222"/>
+        <path d="M1462 138 L1482 138 L1494 160 L1450 160 Z" fill={postFill} stroke="#0e0e0e" strokeWidth="1.5"/>
+        <rect x="1444" y="158" width="56" height="6" fill="#222"/>
+      </g>
+      <rect x="118" y="130" width="20" height="14" fill={postFill} stroke="#0e0e0e" strokeWidth="1.5"/>
+      <rect x="1462" y="130" width="20" height="14" fill={postFill} stroke="#0e0e0e" strokeWidth="1.5"/>
+
+      {/* rail bar */}
+      <rect x="80" y="124" width="1440" height="14" rx="7" ry="7"
+            fill={railFill} stroke="#0e0e0e" strokeWidth="1.5"/>
+      <rect x="92" y="126" width="1416" height="2" fill="#ffffff" opacity=".7"/>
+      <ellipse cx="80"   cy="131" rx="6" ry="7" fill="#2a2f33" stroke="#0e0e0e" strokeWidth="1.5"/>
+      <ellipse cx="1520" cy="131" rx="6" ry="7" fill="#2a2f33" stroke="#0e0e0e" strokeWidth="1.5"/>
+
+      <g opacity=".55" fill="#ffffff">
+        <rect x="220"  y="129" width="60"  height="2"/>
+        <rect x="430"  y="129" width="120" height="2"/>
+        <rect x="720"  y="129" width="40"  height="2"/>
+        <rect x="980"  y="129" width="180" height="2"/>
+        <rect x="1250" y="129" width="80"  height="2"/>
+      </g>
+
+      {/* skater */}
+      <g className="skater">
+        <g transform={`translate(160 124) scale(${scale})`}>
+          {sparks && (
+            <g className="sparks" fill="#ffd166">
+              <circle cx="-30" cy="6" r="2.4"/>
+              <circle cx="-36" cy="3" r="1.7"/>
+              <circle cx="-22" cy="8" r="1.9"/>
+              <circle cx="-28" cy="0" r="1.4"/>
+            </g>
+          )}
+
+          <g fill="#0a0a0a" stroke="#0a0a0a" strokeLinejoin="round" strokeLinecap="round">
+            {/* board */}
+            <path d="M-34 -6 Q -38 -6 -38 -2 L -38 0 Q -38 4 -34 4 L 34 4 Q 38 4 38 0 L 38 -2 Q 38 -6 34 -6 Z"/>
+            <rect x="-26" y="2" width="4" height="4"/>
+            <rect x="22"  y="2" width="4" height="4"/>
+            <circle cx="-24" cy="7" r="2.8"/>
+            <circle cx="24"  cy="7" r="2.8"/>
+
+            {/* legs */}
+            <path d="M -8 -55 L 4 -30 L -22 -8" strokeWidth="11" fill="none"/>
+            <path d="M 10 -56 L 24 -30 L 18 -8" strokeWidth="11" fill="none"/>
+
+            {/* torso */}
+            <path d="M -14 -100 L 16 -103 L 14 -58 L -10 -55 Z"/>
+
+            {/* arms */}
+            <path d="M -12 -98 L -32 -80 L -22 -58" strokeWidth="7" fill="none"/>
+            <path d="M 16 -100 L 34 -90 L 46 -78" strokeWidth="7" fill="none"/>
+
+            {/* neck */}
+            <rect x="-2" y="-108" width="8" height="9"/>
+
+            {/* head */}
+            <circle cx="3" cy="-117" r="9"/>
+
+            {/* hat */}
+            {hat === 'cap' && (
+              <g>
+                <path d="M -7 -117 A 10 10 0 0 1 13 -117 L 12 -114 L -6 -114 Z"/>
+                <path d="M 11 -116 L 26 -113 L 26 -109 L 10 -112 Z"/>
+              </g>
+            )}
+            {hat === 'beanie' && (
+              <g>
+                <path d="M -8 -117 A 11 12 0 0 1 14 -117 L 14 -111 L -8 -111 Z"/>
+                <rect x="-9" y="-113" width="24" height="3"/>
+                <circle cx="3" cy="-129" r="2.5"/>
+              </g>
+            )}
+            {/* 'none' renders no hat */}
+          </g>
+        </g>
+      </g>
+    </svg>
+  );
+}
+
+function App() {
+  const [t, setTweak] = useTweaks(window.TWEAK_DEFAULTS);
+  return (
+    <React.Fragment>
+      <div className="wrap">
+        <div className="label">— asset preview · skate handrail —</div>
+        <Handrail {...t} />
+        <p className="note">
+          <span className="swatch"></span>
+          Self-contained SVG asset: <code>Skate Handrail.svg</code>. Drop in as
+          <code> &lt;img src="Skate Handrail.svg"&gt; </code> or paste inline.
+          ViewBox is <code>0 0 1600 180</code> — scales to any width.
+          Use the <strong>Tweaks</strong> panel to preview variations before handing to Claude Code.
+        </p>
+      </div>
+
+      <TweaksPanel>
+        <TweakSection label="Motion" />
+        <TweakSlider label="Speed (lap)" value={t.speed} min={3} max={20} step={0.5} unit="s"
+                     onChange={v => setTweak('speed', v)} />
+        <TweakSlider label="Skater scale" value={t.scale} min={0.5} max={2} step={0.1}
+                     onChange={v => setTweak('scale', v)} />
+        <TweakToggle label="Sparks" value={t.sparks}
+                     onChange={v => setTweak('sparks', v)} />
+
+        <TweakSection label="Style" />
+        <TweakRadio label="Hat" value={t.hat}
+                    options={['cap','beanie','none']}
+                    onChange={v => setTweak('hat', v)} />
+        <TweakRadio label="Rail" value={t.rail}
+                    options={['chrome','black','brass']}
+                    onChange={v => setTweak('rail', v)} />
+      </TweaksPanel>
+    </React.Fragment>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

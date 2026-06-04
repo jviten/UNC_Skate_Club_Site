@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- duct tape: matte near-black, slightly uneven dark grey weave, ragged ends. ~140 long. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="38" viewBox="0 0 140 38">
+  <defs>
+    <pattern id="duct-weave" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#1d1d1d"/>
+      <line x1="0" y1="2" x2="4" y2="2" stroke="#2a2a2a" stroke-width="0.4"/>
+      <line x1="2" y1="0" x2="2" y2="4" stroke="#0d0d0d" stroke-width="0.4"/>
+    </pattern>
+    <filter id="duct-noise">
+      <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="29"/>
+      <feColorMatrix values="0 0 0 0 0.05
+                             0 0 0 0 0.05
+                             0 0 0 0 0.05
+                             0 0 0 0.5 0"/>
+    </filter>
+  </defs>
+  <path fill="url(#duct-weave)"
+    d="M3,6 L8,3 L13,8 L7,12 L10,17 L4,20 L9,24 L3,28 L7,32
+       L2,35 L9,37 L18,34 L28,37 L40,33 L52,36 L64,34 L78,37
+       L92,34 L106,37 L118,34 L128,37 L134,33 L138,28 L135,22
+       L140,17 L136,12 L139,7 L134,3 L137,0 L126,2 L114,0 L100,3
+       L86,0 L72,2 L58,0 L44,3 L30,0 L18,2 L9,0 Z"/>
+  <!-- matte scuff -->
+  <rect x="0" y="0" width="140" height="38" filter="url(#duct-noise)" opacity="0.45"/>
+  <!-- one creased ridge -->
+  <line x1="10" y1="18" x2="130" y2="20" stroke="#000000" stroke-width="0.6" opacity="0.6"/>
+</svg>

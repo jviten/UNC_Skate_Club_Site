@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 180" role="img" aria-label="Skate handrail with skater grinding">
+  <defs>
+    
+  </defs>
+
+  
+  <ellipse cx="800" cy="158" rx="780" ry="4" fill="rgba(0,0,0,.18)"></ellipse>
+
+  
+  <g>
+    <path d="M118 138 L138 138 L150 160 L106 160 Z" fill="#2a2a2a" stroke="#0e0e0e" stroke-width="1.5"></path>
+    <rect x="100" y="158" width="56" height="6" fill="#1a1a1a"></rect>
+    <path d="M1462 138 L1482 138 L1494 160 L1450 160 Z" fill="#2a2a2a" stroke="#0e0e0e" stroke-width="1.5"></path>
+    <rect x="1444" y="158" width="56" height="6" fill="#1a1a1a"></rect>
+  </g>
+  <rect x="118" y="130" width="20" height="14" fill="#2a2a2a" stroke="#0e0e0e" stroke-width="1.5"></rect>
+  <rect x="1462" y="130" width="20" height="14" fill="#2a2a2a" stroke="#0e0e0e" stroke-width="1.5"></rect>
+
+  
+  <rect x="80" y="124" width="1440" height="14" rx="7" ry="7" fill="#1a1a1a" stroke="#0e0e0e" stroke-width="1.5"></rect>
+  <rect x="92" y="126" width="1416" height="2" fill="#4a4a4a" opacity=".8"></rect>
+  <ellipse cx="80" cy="131" rx="6" ry="7" fill="#0a0a0a" stroke="#0e0e0e" stroke-width="1.5"></ellipse>
+  <ellipse cx="1520" cy="131" rx="6" ry="7" fill="#0a0a0a" stroke="#0e0e0e" stroke-width="1.5"></ellipse>
+
+  
+  <g opacity=".4" fill="#cccccc">
+    <rect x="220" y="129" width="60" height="2"></rect>
+    <rect x="430" y="129" width="120" height="2"></rect>
+    <rect x="720" y="129" width="40" height="2"></rect>
+    <rect x="980" y="129" width="180" height="2"></rect>
+    <rect x="1250" y="129" width="80" height="2"></rect>
+  </g>
+
+  
+  <g class="skater">
+    <g transform="translate(160 124) scale(0.7)">
+
+      
+      <g class="sparks" fill="#ffd166">
+        <circle cx="-30" cy="6" r="2.4"></circle>
+        <circle cx="-36" cy="3" r="1.7"></circle>
+        <circle cx="-22" cy="8" r="1.9"></circle>
+        <circle cx="-28" cy="0" r="1.4"></circle>
+      </g>
+
+      <g fill="#0a0a0a" stroke="#0a0a0a" stroke-linejoin="round" stroke-linecap="round">
+        
+        <path d="M-34 -6 Q -38 -6 -38 -2 L -38 0 Q -38 4 -34 4 L 34 4 Q 38 4 38 0 L 38 -2 Q 38 -6 34 -6 Z"></path>
+        <rect x="-26" y="2" width="4" height="4"></rect>
+        <rect x="22" y="2" width="4" height="4"></rect>
+        <circle cx="-24" cy="7" r="2.8"></circle>
+        <circle cx="24" cy="7" r="2.8"></circle>
+
+        
+        <path d="M -8 -55 L 4 -30 L -22 -8" stroke-width="11" fill="none"></path>
+        <path d="M 10 -56 L 24 -30 L 18 -8" stroke-width="11" fill="none"></path>
+
+        
+        <path d="M -14 -100 L 16 -103 L 14 -58 L -10 -55 Z"></path>
+
+        
+        <path d="M -12 -98 L -32 -80 L -22 -58" stroke-width="7" fill="none"></path>
+        <path d="M 16 -100 L 34 -90 L 46 -78" stroke-width="7" fill="none"></path>
+
+        
+        <rect x="-2" y="-108" width="8" height="9"></rect>
+
+        
+        <circle cx="3" cy="-117" r="9"></circle>
+
+        
+        <path d="M -7 -117 A 10 10 0 0 1 13 -117 L 12 -114 L -6 -114 Z"></path>
+        <path d="M 11 -116 L 26 -113 L 26 -109 L 10 -112 Z"></path>
+      </g>
+    </g>
+  </g>
+</svg>

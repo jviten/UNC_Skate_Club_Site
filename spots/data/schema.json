@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://uncskate.club/spots/data/schema.json",
+  "title": "UNC Skate Club spot list",
+  "description": "Schema for spots/data/public.json and admin/data/private.json. The file itself determines tier — there is no 'tier' field. See schema.md for prose docs.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "name", "lat", "lng", "type"],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9-]*$",
+        "maxLength": 60,
+        "description": "Unique kebab-case slug. Stable across edits — used in URL fragments and as the dedupe key."
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 80,
+        "description": "Human-readable name. Shown on the marker popup."
+      },
+      "lat": {
+        "type": "number",
+        "minimum": -90,
+        "maximum": 90,
+        "description": "Latitude in decimal degrees. Chapel Hill / Carrboro spots will be roughly 35.9."
+      },
+      "lng": {
+        "type": "number",
+        "minimum": -180,
+        "maximum": 180,
+        "description": "Longitude in decimal degrees. Chapel Hill / Carrboro spots will be roughly -79.0."
+      },
+      "type": {
+        "type": "string",
+        "enum": ["ledge", "stairs", "rail", "transition", "flat", "DIY"],
+        "description": "Primary obstacle. Matches the filter UI in TODO.md."
+      },
+      "area": {
+        "type": "string",
+        "enum": ["Chapel Hill", "Carrboro", "other"],
+        "description": "Coarse grouping. 'other' covers anything outside the two towns (Durham edges, etc.)."
+      },
+      "bust": {
+        "type": "string",
+        "enum": ["chill", "caution", "hot"],
+        "description": "Bust factor. chill = no one cares. caution = depends on time/day. hot = expect to get kicked."
+      },
+      "surface": {
+        "type": "string",
+        "enum": ["concrete", "asphalt", "marble", "brick", "wood", "metal", "other"]
+      },
+      "size": {
+        "type": "string",
+        "maxLength": 80,
+        "description": "Free-form size description, e.g. '3-stair', 'knee-high ledge', 'mellow bank'."
+      },
+      "notes": {
+        "type": "string",
+        "maxLength": 500,
+        "description": "Plain text. No HTML — Leaflet popups must escape this."
+      },
+      "photos": {
+        "type": "array",
+        "maxItems": 8,
+        "items": {
+          "type": "string",
+          "format": "uri-reference",
+          "maxLength": 300,
+          "description": "Relative repo path (e.g. assets/spots/oec-1.jpg) or full https URL. Validated on input — see security notes in schema.md."
+        }
+      },
+      "verified": {
+        "type": "string",
+        "format": "date",
+        "description": "ISO date (YYYY-MM-DD). Last time an exec confirmed the spot still exists and is skateable."
+      },
+      "added": {
+        "type": "string",
+        "format": "date",
+        "description": "ISO date (YYYY-MM-DD). When the spot first entered the list."
+      },
+      "submitted_by": {
+        "type": "string",
+        "maxLength": 60,
+        "description": "Optional credit string. From Formspree submissions, will be a Discord handle or first name."
+      }
+    }
+  }
+}
