@@ -1,0 +1,12 @@
+# GitHub Pages build config.
+# Pages serves every published file at a public URL with NO auth in front,
+# so anything not meant for the public web must be excluded from the build.
+# Excluded paths are not copied into the published site -> they 404 publicly.
+exclude:
+  - admin          # private-spot queue + data; gated by Cloudflare Access in the real model, absent here
+  - backend        # FastAPI source, seed data, configs — never part of the static site
+  - design         # design imports, agent passes, specs — internal only
+  - .claude        # agent definitions + local settings
+  - CLAUDE.md
+  - README.md
+  - TODO.md
