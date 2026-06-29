@@ -56,7 +56,7 @@ body {
   z-index: 2;
   width: 100%;
   min-height: 100vh;
-  padding: 80px 5vw 0;
+  padding: 36px 5vw 0;
 }
 
 /* ============================================
@@ -105,7 +105,7 @@ body {
 .flyer__content {
   position: relative;
   z-index: 1;
-  padding: 110px 9% 130px;
+  padding: 52px 9% 90px;
 }
 
 /* ============================================
@@ -122,7 +122,7 @@ body {
   color: var(--ink-soft);
   border-bottom: 2px solid var(--ink);
   padding-bottom: 8px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   position: relative;
 }
 .meta-strip__issue {
@@ -144,13 +144,13 @@ body {
   grid-template-columns: 1fr auto;
   align-items: end;
   gap: 28px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
   position: relative;
 }
 .hero__skull {
-  width: 380px;
+  width: 340px;
   height: auto;
-  margin-top: -180px;
+  margin-top: -100px;
   margin-left: -30px;
   position: relative;
   filter: drop-shadow(0 4px 0 rgba(0,0,0,.25));
@@ -161,7 +161,7 @@ body {
   color: var(--ink);
   margin: 0;
   line-height: 0.84;
-  font-size: clamp(80px, 13vw, 220px);
+  font-size: clamp(72px, 12vw, 190px);
   letter-spacing: -0.01em;
   text-align: right;
   text-transform: uppercase;
@@ -303,7 +303,7 @@ body {
   grid-template-columns: 1.4fr 1fr;
   gap: 50px;
   align-items: start;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   position: relative;
 }
 .meeting__kicker,
@@ -671,7 +671,7 @@ body {
 .photo--wide .slot-empty { aspect-ratio: 3 / 2; }
 .photo--tall img,
 .photo--tall .slot-empty { aspect-ratio: 4 / 5; }
-/* double — two photos sharing one print */
+/* double — two photos sharing one print; wide enough to wrap to its own row */
 .photo--double { width: clamp(420px, 78vw, 920px); }
 .photo__pair {
   display: flex;
@@ -680,6 +680,7 @@ body {
 .photo--double .photo__pair img,
 .photo--double .photo__pair .slot-empty {
   flex: 1 1 0;
+  min-width: 0; /* let flex shrink the imgs below their intrinsic width */
   width: auto;
   aspect-ratio: 3 / 2;
 }
@@ -716,15 +717,15 @@ body {
    MOBILE
    ============================================ */
 @media (max-width: 760px) {
-  .stage { padding: 50px 4vw 0; }
+  .stage { padding: 34px 4vw 0; }
   .hero { grid-template-columns: 1fr; gap: 0; }
-  .hero__skull { width: 220px; margin-top: -120px; margin-left: -10px; }
+  .hero__skull { width: 220px; margin-top: -110px; margin-left: -10px; }
   .hero__wordmark { text-align: left; font-size: clamp(56px, 16vw, 110px); }
-  .info-grid { grid-template-columns: 1fr; gap: 40px; }
+  .info-grid { grid-template-columns: 1fr; gap: 36px; }
   .meta-strip { font-size: 11px; }
   .nav-band__list { gap: 6px; }
   .nav-band__list a { font-size: 22px; }
-  .flyer__content { padding: 90px 8% 110px; }
+  .flyer__content { padding: 60px 8% 90px; }
   .tape-tl, .tape-tr, .tape-bl, .tape-br { display: none; }
   .pin-3 { display: none; }
 }
