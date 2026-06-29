@@ -1,160 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Skate Club at UNC</title>
-
-  <!-- Google Fonts: Anton, Permanent Marker, Cabin Sketch, Special Elite -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Anton&family=Cabin+Sketch:wght@400;700&family=Permanent+Marker&family=Special+Elite&display=swap"
-    rel="stylesheet">
-
-  <link rel="stylesheet" href="styles/global.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SKATE CLUB AT UNC</title>
+<meta name="description" content="Skate Club at UNC — Chapel Hill. Meetings 6:30pm every Thursday in the Pit. Any board, any wheels, beginners welcome." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Cabin+Sketch:wght@400;700&family=Special+Elite&family=VT323&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles/global.css" />
 </head>
 <body>
 
-  <main class="paper">
+<!-- ============================================
+     SVG FILTER — organic torn paper edges via
+     fractal noise + displacement map. Reused pin +
+     skater symbols also live here.
+     ============================================ -->
+<svg width="0" height="0" style="position:absolute; pointer-events:none;" aria-hidden="true">
+  <defs>
+    <filter id="paper-rip" x="-3%" y="-3%" width="106%" height="106%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.013 0.017" numOctaves="3" seed="9" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
 
-    <!-- four torn edges: bleed past the paper into the wall -->
-    <div class="edge edge--top" aria-hidden="true"></div>
-    <div class="edge edge--bottom" aria-hidden="true"></div>
-    <div class="edge edge--left" aria-hidden="true"></div>
-    <div class="edge edge--right" aria-hidden="true"></div>
+    <!-- Pushpin gradients reused by all pin instances -->
+    <radialGradient id="pinBulbMag" cx="32%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#ffd0e0"/>
+      <stop offset="35%" stop-color="#ff5a92"/>
+      <stop offset="75%" stop-color="#E5197F"/>
+      <stop offset="100%" stop-color="#6b0a3d"/>
+    </radialGradient>
+    <radialGradient id="pinBulbBlue" cx="32%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#dceefb"/>
+      <stop offset="35%" stop-color="#7cbce6"/>
+      <stop offset="75%" stop-color="#4B9CD3"/>
+      <stop offset="100%" stop-color="#163554"/>
+    </radialGradient>
+    <linearGradient id="pinSilver" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#d4d4d4"/>
+      <stop offset="45%" stop-color="#6e6e6e"/>
+      <stop offset="100%" stop-color="#bcbcbc"/>
+    </linearGradient>
 
-    <!-- four corner tape pieces, asymmetric -->
-    <div class="tape tape--tl" aria-hidden="true"></div>
-    <div class="tape tape--tr" aria-hidden="true"></div>
-    <div class="tape tape--bl" aria-hidden="true"></div>
-    <div class="tape tape--br" aria-hidden="true"></div>
+    <!-- Reusable pin symbol — diagonal thumbtack with silver shaft visible -->
+    <symbol id="pin-glyph" viewBox="0 0 50 60">
+      <!-- shadow under the pin on the surface -->
+      <ellipse cx="24" cy="50" rx="13" ry="3" fill="rgba(0,0,0,.55)"/>
+      <!-- silver pin shaft, tilted, partly visible behind/below the head -->
+      <g transform="rotate(22 24 32)">
+        <path d="M 21 30 L 27 30 L 25.5 48 L 22.5 48 Z" fill="url(#pinSilver)"/>
+        <path d="M 22.5 48 L 25.5 48 L 24 53 Z" fill="#0c0c0c"/>
+      </g>
+      <!-- head: soft ellipse for slight tilt -->
+      <ellipse cx="22" cy="22" rx="15" ry="13" fill="var(--bulb-fill, url(#pinBulbMag))" stroke="rgba(0,0,0,.3)" stroke-width="0.5"/>
+      <!-- highlight -->
+      <ellipse cx="16" cy="15" rx="5.5" ry="3" fill="rgba(255,255,255,.55)"/>
+      <!-- subtle rim shading on the bottom -->
+      <path d="M 8 26 Q 13 33 22 33 Q 31 33 36 26" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"/>
+    </symbol>
+  </defs>
+</svg>
 
-    <div class="paper__inner">
+<div class="cork-wall"></div>
 
-      <!-- hero band: griptape, ONE big ram skull, Anton wordmark right of horns, Carolina-blue capsule -->
-      <section class="hero" aria-label="Hero">
-        <img
-          class="hero__skull"
-          src="assets/logo/unc-skate-logo-no-lettering.png"
-          alt="UNC Skate Club ram skull mark">
-        <h1 class="hero__title">
-          <span>Skate Club</span>
-          <span>At UNC</span>
+<main class="stage">
+
+  <div class="flyer-wrap">
+
+    <!-- the cream paper (filtered for organic torn edges) -->
+    <div class="flyer__paper"></div>
+
+    <!-- content layer on top -->
+    <article class="flyer__content">
+
+      <div class="meta-strip">
+        <span class="meta-strip__issue">ISSUE 026 // SPRING 26</span>
+        <span>CHAPEL HILL</span>
+        <span class="meta-strip__price">FREE / DIY</span>
+      </div>
+
+      <header class="hero">
+        <img class="hero__skull" src="assets/logo/unc-skate-logo-no-lettering.png" alt="UNC Skate Club ram skull"/>
+        <h1 class="hero__wordmark">
+          <span class="ampline">Skate Club</span>
+          <span class="ampline">at UNC</span>
         </h1>
-        <div class="hero__capsule">
-          <span class="line1">spring 26</span>
-          <span class="line2">chapel hill</span>
-        </div>
-        <!-- hand-drawn cream line, scribbled under the capsule -->
-        <svg class="hero__scribble" viewBox="0 0 180 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M2,14 C 14,4 28,22 42,10 S 70,20 88,8 S 124,22 142,12 S 170,4 178,16"
-                fill="none" stroke="#14171a" stroke-width="2.4" stroke-linecap="round"/>
-          <path d="M150,4 L 178,16 L 156,18"
-                fill="none" stroke="#14171a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </section>
+      </header>
 
-      <!-- nav row — sits on cream paper BELOW the hero band -->
-      <nav class="nav" aria-label="Primary">
-        <ul class="nav__list">
-          <li><a href="spots/index.html">Spots</a></li>
-          <li><a href="#meetings">Meetings</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="https://www.instagram.com/unc.skate.club/" target="_blank" rel="noopener">IG</a></li>
-          <li><a href="https://groupme.com/join_group/88925450/H1BbUgQ7" target="_blank" rel="noopener">GroupMe</a></li>
-        </ul>
-      </nav>
+      <div class="nav-wrap">
+        <div class="rail-zone" aria-hidden="true">
+          <svg viewBox="0 -40 1600 204" xmlns="http://www.w3.org/2000/svg" style="--rail-speed: 5s;">
+            <defs>
+              <linearGradient id="chrome" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0"    stop-color="#f6f6f6"/>
+                <stop offset=".35"  stop-color="#9aa1a8"/>
+                <stop offset=".55"  stop-color="#3a3f44"/>
+                <stop offset=".85"  stop-color="#7d848c"/>
+                <stop offset="1"    stop-color="#cdd2d6"/>
+              </linearGradient>
+              <linearGradient id="chrome-post" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0"    stop-color="#cdd2d6"/>
+                <stop offset=".4"   stop-color="#3a3f44"/>
+                <stop offset=".7"   stop-color="#9aa1a8"/>
+                <stop offset="1"    stop-color="#cdd2d6"/>
+              </linearGradient>
+            </defs>
 
-      <!-- animated skate handrail divider — inline SVG so CSS classes can target it -->
-      <svg class="handrail" viewBox="0 0 1600 180" xmlns="http://www.w3.org/2000/svg"
-           style="--speed: 12.5s" aria-hidden="true">
-        <ellipse cx="800" cy="158" rx="780" ry="4" fill="rgba(0,0,0,.18)"/>
+            <!-- ground line + shadow under the rail (lines up with nav band top) -->
+            <rect x="0" y="164" width="1600" height="1" fill="#0a0a0a" opacity=".25"/>
+            <ellipse cx="800" cy="158" rx="780" ry="4" fill="rgba(0,0,0,.18)"/>
 
-        <!-- posts -->
-        <g>
-          <path d="M118 138 L138 138 L150 160 L106 160 Z" fill="#2a2a2a" stroke="#0e0e0e" stroke-width="1.5"/>
-          <rect x="100" y="158" width="56" height="6" fill="#222"/>
-          <path d="M1462 138 L1482 138 L1494 160 L1450 160 Z" fill="#2a2a2a" stroke="#0e0e0e" stroke-width="1.5"/>
-          <rect x="1444" y="158" width="56" height="6" fill="#222"/>
-        </g>
-        <rect x="118" y="130" width="20" height="14" fill="#2a2a2a" stroke="#0e0e0e" stroke-width="1.5"/>
-        <rect x="1462" y="130" width="20" height="14" fill="#2a2a2a" stroke="#0e0e0e" stroke-width="1.5"/>
+            <!-- posts -->
+            <g>
+              <path d="M118 138 L138 138 L150 160 L106 160 Z" fill="url(#chrome-post)" stroke="#0e0e0e" stroke-width="1.5"/>
+              <rect x="100" y="158" width="56" height="6" fill="#222"/>
+              <path d="M1462 138 L1482 138 L1494 160 L1450 160 Z" fill="url(#chrome-post)" stroke="#0e0e0e" stroke-width="1.5"/>
+              <rect x="1444" y="158" width="56" height="6" fill="#222"/>
+            </g>
+            <rect x="118" y="130" width="20" height="14" fill="url(#chrome-post)" stroke="#0e0e0e" stroke-width="1.5"/>
+            <rect x="1462" y="130" width="20" height="14" fill="url(#chrome-post)" stroke="#0e0e0e" stroke-width="1.5"/>
 
-        <!-- rail bar -->
-        <rect x="80" y="124" width="1440" height="14" rx="7" ry="7"
-              fill="#1a1a1a" stroke="#0e0e0e" stroke-width="1.5"/>
-        <rect x="92" y="126" width="1416" height="2" fill="#ffffff" opacity=".7"/>
-        <ellipse cx="80"   cy="131" rx="6" ry="7" fill="#2a2f33" stroke="#0e0e0e" stroke-width="1.5"/>
-        <ellipse cx="1520" cy="131" rx="6" ry="7" fill="#2a2f33" stroke="#0e0e0e" stroke-width="1.5"/>
-
-        <g opacity=".55" fill="#ffffff">
-          <rect x="220"  y="129" width="60"  height="2"/>
-          <rect x="430"  y="129" width="120" height="2"/>
-          <rect x="720"  y="129" width="40"  height="2"/>
-          <rect x="980"  y="129" width="180" height="2"/>
-          <rect x="1250" y="129" width="80"  height="2"/>
-        </g>
-
-        <!-- skater -->
-        <g class="skater">
-          <g transform="translate(160 124) scale(0.7)">
-            <g class="sparks" fill="#ffd166">
-              <circle cx="-30" cy="6" r="2.4"/>
-              <circle cx="-36" cy="3" r="1.7"/>
-              <circle cx="-22" cy="8" r="1.9"/>
-              <circle cx="-28" cy="0" r="1.4"/>
+            <!-- rail bar -->
+            <rect x="80" y="124" width="1440" height="14" rx="7" ry="7"
+                  fill="url(#chrome)" stroke="#0e0e0e" stroke-width="1.5"/>
+            <rect x="92" y="126" width="1416" height="2" fill="#ffffff" opacity=".7"/>
+            <ellipse cx="80"   cy="131" rx="6" ry="7" fill="#2a2f33" stroke="#0e0e0e" stroke-width="1.5"/>
+            <ellipse cx="1520" cy="131" rx="6" ry="7" fill="#2a2f33" stroke="#0e0e0e" stroke-width="1.5"/>
+            <g opacity=".55" fill="#ffffff">
+              <rect x="220"  y="129" width="60"  height="2"/>
+              <rect x="430"  y="129" width="120" height="2"/>
+              <rect x="720"  y="129" width="40"  height="2"/>
+              <rect x="980"  y="129" width="180" height="2"/>
+              <rect x="1250" y="129" width="80"  height="2"/>
             </g>
 
-            <g fill="#0a0a0a" stroke="#0a0a0a" stroke-linejoin="round" stroke-linecap="round">
-              <!-- board -->
-              <path d="M-34 -6 Q -38 -6 -38 -2 L -38 0 Q -38 4 -34 4 L 34 4 Q 38 4 38 0 L 38 -2 Q 38 -6 34 -6 Z"/>
-              <rect x="-26" y="2" width="4" height="4"/>
-              <rect x="22"  y="2" width="4" height="4"/>
-              <circle cx="-24" cy="7" r="2.8"/>
-              <circle cx="24"  cy="7" r="2.8"/>
-
-              <!-- legs -->
-              <path d="M -8 -55 L 4 -30 L -22 -8" stroke-width="11" fill="none"/>
-              <path d="M 10 -56 L 24 -30 L 18 -8" stroke-width="11" fill="none"/>
-
-              <!-- torso -->
-              <path d="M -14 -100 L 16 -103 L 14 -58 L -10 -55 Z"/>
-
-              <!-- arms -->
-              <path d="M -12 -98 L -32 -80 L -22 -58" stroke-width="7" fill="none"/>
-              <path d="M 16 -100 L 34 -90 L 46 -78" stroke-width="7" fill="none"/>
-
-              <!-- neck -->
-              <rect x="-2" y="-108" width="8" height="9"/>
-
-              <!-- head -->
-              <circle cx="3" cy="-117" r="9"/>
-
-              <!-- hat: cap -->
-              <g>
-                <path d="M -7 -117 A 10 10 0 0 1 13 -117 L 12 -114 L -6 -114 Z"/>
-                <path d="M 11 -116 L 26 -113 L 26 -109 L 10 -112 Z"/>
+            <!-- skater — full ollie/grind/pop routine, scale 1 -->
+            <g class="skater">
+              <g transform="translate(160 124) scale(1)">
+                <g class="sparks" fill="#ffd166">
+                  <circle cx="-30" cy="6" r="2.4"/>
+                  <circle cx="-36" cy="3" r="1.7"/>
+                  <circle cx="-22" cy="8" r="1.9"/>
+                  <circle cx="-28" cy="0" r="1.4"/>
+                </g>
+                <g fill="#0a0a0a" stroke="#0a0a0a" stroke-linejoin="round" stroke-linecap="round">
+                  <path d="M-34 -6 Q -38 -6 -38 -2 L -38 0 Q -38 4 -34 4 L 34 4 Q 38 4 38 0 L 38 -2 Q 38 -6 34 -6 Z"/>
+                  <rect x="-26" y="2" width="4" height="4"/>
+                  <rect x="22"  y="2" width="4" height="4"/>
+                  <circle cx="-24" cy="7" r="2.8"/>
+                  <circle cx="24"  cy="7" r="2.8"/>
+                  <path d="M -8 -55 L 4 -30 L -22 -8" stroke-width="11" fill="none"/>
+                  <path d="M 10 -56 L 24 -30 L 18 -8" stroke-width="11" fill="none"/>
+                  <path d="M -14 -100 L 16 -103 L 14 -58 L -10 -55 Z"/>
+                  <path d="M -12 -98 L -32 -80 L -22 -58" stroke-width="7" fill="none"/>
+                  <path d="M 16 -100 L 34 -90 L 46 -78" stroke-width="7" fill="none"/>
+                  <rect x="-2" y="-108" width="8" height="9"/>
+                  <circle cx="3" cy="-117" r="9"/>
+                  <path d="M -7 -117 A 10 10 0 0 1 13 -117 L 12 -114 L -6 -114 Z"/>
+                  <path d="M 11 -116 L 26 -113 L 26 -109 L 10 -112 Z"/>
+                </g>
               </g>
             </g>
-          </g>
-        </g>
-      </svg>
+          </svg>
+        </div>
+        <nav class="nav-band">
+          <ul class="nav-band__list">
+            <li><a href="spots/index.html">Spots</a></li>
+            <li><a href="#meetings">Meetings</a></li>
+            <li><a href="#the-wall">About</a></li>
+            <li><a href="https://groupme.com/join_group/88925450/H1BbUgQ7" target="_blank" rel="noopener noreferrer">GroupMe</a></li>
+            <li><a href="https://www.instagram.com/unc.skate.club/" target="_blank" rel="noopener noreferrer">IG</a></li>
+          </ul>
+        </nav>
+      </div>
 
-      <!-- meeting info — cream paper, below the nav row -->
-      <section class="meeting" aria-label="Meeting info">
-        <p class="meeting__when">thursdays &middot; 6:30 &middot; the pit</p>
-        <p class="meeting__welcome">any board. any wheels. first time on one is fine.</p>
+      <div class="info-grid">
+        <section class="meeting" id="meetings">
+          <div class="meeting__kicker">// MEETINGS</div>
+          <p class="meeting__line">
+            meetings at <em>6:30 pm</em><br>
+            in the pit<br>
+            every thursday
+          </p>
+          <span class="meeting__hand">no dues. show up.</span>
+        </section>
+
+        <section class="inclusivity">
+          <div class="inclusivity__label">// FOR ANYONE</div>
+          <ul class="inclusivity__list">
+            <li><span class="underline-sharpie">any wheels.</span></li>
+            <li>beginners welcome.</li>
+            <li>extra boards available.</li>
+          </ul>
+
+          <figure class="incl-snap">
+            <span class="incl-snap__tape" aria-hidden="true"></span>
+            <div class="incl-snap__vid">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/FUS0ikotKhY"
+                title="Pluto — UNC Skate Club"
+                loading="lazy"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen></iframe>
+            </div>
+            <figcaption class="incl-snap__cap">"pluto" our video ↗</figcaption>
+          </figure>
+        </section>
+      </div>
+
+      <!-- Long horizontal group photo strip — drop in a real crew photo -->
+      <section class="crew" aria-label="the crew">
+        <div class="slot-empty" role="img" aria-label="Crew photo coming soon"></div>
+        <div class="crew__caption">
+          <span>// THE CREW</span>
+          <span>SPRING 26</span>
+        </div>
       </section>
 
-      <!-- inner tear: ~6px wide slit, asymmetric placement -->
-      <div class="inner-tear" aria-hidden="true"></div>
+    </article>
 
-      <div class="tail"></div>
+    <!-- ============================================
+         TAPE — corners + side straddles
+         ============================================ -->
+    <div class="tape tape-tl"></div>
+    <div class="tape tape-tr"></div>
+    <div class="tape tape-bl"></div>
+    <div class="tape tape-br"></div>
+    <!-- On-paper top strips -->
+    <div class="tape tape-mid-1"></div>
+    <div class="tape tape-mid-2"></div>
+    <!-- Side strips straddling the paper edge -->
+    <div class="tape tape-mid-3"></div>
+    <div class="tape tape-mid-4"></div>
 
-    </div><!-- /.paper__inner -->
+  </div>
 
-  </main>
+  <!-- FOOTER ON CORK — single inline strip -->
+  <div class="below">
+    <div class="below__line">
+      <span class="below__ig"><a href="https://www.instagram.com/unc.skate.club/" target="_blank" rel="noopener noreferrer">@unc.skate.club</a></span>
+      <span class="below__sep">·</span>
+      <span>every thursday · the pit</span>
+      <span class="below__sep">·</span>
+      <span>skate club @ UNC</span>
+      <span class="below__sep">·</span>
+      <span class="below__loc">
+        <span class="below__pin" style="--bulb-fill: url(#pinBulbMag);">
+          <svg viewBox="0 0 50 60" width="100%" height="100%"><use href="#pin-glyph"/></svg>
+        </span>
+        chapel hill
+      </span>
+    </div>
+  </div>
+
+  <!-- GALLERY — printed photos pinned to the cork -->
+  <section class="gallery" id="the-wall" aria-label="photo wall">
+    <h2 class="gallery__head">// the wall</h2>
+    <div class="gallery__row">
+      <div class="gallery__duo">
+      <figure class="photo photo--wide">
+        <span class="photo__pin" style="--bulb-fill: url(#pinBulbMag);">
+          <svg viewBox="0 0 50 60" width="100%" height="100%"><use href="#pin-glyph"/></svg>
+        </span>
+        <img src="assets/photos/women-in-skate.jpg" alt="Women in Skate event" loading="lazy" />
+        <figcaption class="photo__cap">women in skate</figcaption>
+      </figure>
+      <figure class="photo photo--tall">
+        <span class="photo__pin" style="--bulb-fill: url(#pinBulbBlue);">
+          <svg viewBox="0 0 50 60" width="100%" height="100%"><use href="#pin-glyph"/></svg>
+        </span>
+        <img src="assets/photos/skate-jam.png" alt="Skate jam" loading="lazy" />
+        <figcaption class="photo__cap">skate jam</figcaption>
+      </figure>
+      </div>
+      <figure class="photo photo--double">
+        <span class="photo__pin" style="--bulb-fill: url(#pinBulbMag);">
+          <svg viewBox="0 0 50 60" width="100%" height="100%"><use href="#pin-glyph"/></svg>
+        </span>
+        <div class="photo__pair">
+          <img src="assets/photos/breaded-trunk.jpg" alt="Skate club out of the trunk" loading="lazy" />
+          <img src="assets/photos/breaded-checkout.jpg" alt="Skate club at the checkout" loading="lazy" />
+        </div>
+        <figcaption class="photo__cap">skate club got breaded up</figcaption>
+      </figure>
+      <figure class="photo photo--wide">
+        <span class="photo__pin" style="--bulb-fill: url(#pinBulbBlue);">
+          <svg viewBox="0 0 50 60" width="100%" height="100%"><use href="#pin-glyph"/></svg>
+        </span>
+        <img src="assets/photos/elias-rail.jpg" alt="Elias on the rail" loading="lazy" />
+        <figcaption class="photo__cap">who think elias landed ts?</figcaption>
+      </figure>
+      <figure class="photo">
+        <span class="photo__pin" style="--bulb-fill: url(#pinBulbMag);">
+          <svg viewBox="0 0 50 60" width="100%" height="100%"><use href="#pin-glyph"/></svg>
+        </span>
+        <div class="slot-empty" role="img" aria-label="Photo coming soon"></div>
+        <figcaption class="photo__cap">fully sent</figcaption>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Skater run loop using Web Animations API for clean restarts.
+  // Honors prefers-reduced-motion: if the user opts out, the skater
+  // stays hidden and never animates.
+  (function() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const skater = document.querySelector('.skater');
+    const sparks = document.querySelector('.sparks');
+    if (!skater) return;
+
+    const LAP_MS = 5000;
+
+    const routine = [
+      { offset: 0.00, transform: 'translate(-260px, 31px) rotate(0deg)',   easing: 'linear' },
+      { offset: 0.24, transform: 'translate(-10px, 31px) rotate(0deg)',    easing: 'cubic-bezier(0,0,.58,1)' },
+      { offset: 0.26, transform: 'translate(30px, -22px) rotate(10deg)',   easing: 'cubic-bezier(.42,0,1,1)' },
+      { offset: 0.30, transform: 'translate(75px, 0px) rotate(8deg)',      easing: 'linear' },
+      { offset: 0.78, transform: 'translate(1240px, 0px) rotate(8deg)',    easing: 'cubic-bezier(0,0,.58,1)' },
+      { offset: 0.80, transform: 'translate(1280px, -22px) rotate(3deg)',  easing: 'cubic-bezier(.42,0,1,1)' },
+      { offset: 0.87, transform: 'translate(1420px, 31px) rotate(0deg)',   easing: 'linear' },
+      { offset: 1.00, transform: 'translate(1700px, 31px) rotate(0deg)' }
+    ];
+
+    // Sparks: on during grind (30%–78% of the lap), off otherwise.
+    const sparkFrames = [
+      { offset: 0,     opacity: 0 },
+      { offset: 0.299, opacity: 0 },
+      { offset: 0.300, opacity: 1 },
+      { offset: 0.780, opacity: 1 },
+      { offset: 0.781, opacity: 0 },
+      { offset: 1,     opacity: 0 }
+    ];
+
+    function runLap() {
+      skater.style.visibility = 'visible';
+      const a = skater.animate(routine, { duration: LAP_MS, easing: 'linear', fill: 'none' });
+      if (sparks) sparks.animate(sparkFrames, { duration: LAP_MS, fill: 'none' });
+      a.onfinish = () => {
+        skater.style.visibility = 'hidden';
+        const wait = 5000 + Math.random() * 10000; // 5–15s offscreen pause
+        setTimeout(runLap, wait);
+      };
+    }
+
+    setTimeout(runLap, 600);
+  })();
+</script>
 
 </body>
 </html>

@@ -19,4 +19,10 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Design-bundle download archives (extracted copies live under design/)
+*.zip
+# Stray saved-webpage cruft that has wandered into assets/ before
+assets/**/*_files/
+"assets/**/*Reader.html"
+
 # uv.lock is intentionally NOT ignored — it pins deps for reproducible installs.
