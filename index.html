@@ -198,7 +198,7 @@
 
       <!-- Long horizontal group photo strip — drop in a real crew photo -->
       <section class="crew" aria-label="the crew">
-        <div class="slot-empty" role="img" aria-label="Crew photo coming soon"></div>
+        <img src="assets/photos/crew.jpg" alt="UNC Skate Club crew, spring 2026" loading="lazy" />
         <div class="crew__caption">
           <span>THE CREW</span>
           <span>SPRING 26</span>
@@ -279,16 +279,6 @@
           <div class="crt__channels" role="group" aria-label="Channel selector">
             <button class="crt__ch-btn is-active" type="button" aria-pressed="true">1</button>
             <button class="crt__ch-btn" type="button" aria-pressed="false">2</button>
-          </div>
-          <div class="crt__knobs">
-            <span class="crt__knob-wrap">
-              <span class="crt__knob"><span class="crt__knob-notch"></span></span>
-              <span class="crt__knob-label">VOL</span>
-            </span>
-            <span class="crt__knob-wrap">
-              <span class="crt__knob"><span class="crt__knob-notch"></span></span>
-              <span class="crt__knob-label">TINT</span>
-            </span>
           </div>
           <div class="crt__power">
             <span class="crt__led" aria-hidden="true"></span> ON
@@ -438,55 +428,6 @@
 
     tuneTo(0, false); // sync the display to channel 1 without reloading
     buttons.forEach((b, i) => b.addEventListener('click', () => tuneTo(i, true)));
-  })();
-
-  // TV knobs — purely decorative. Grab-and-turn or click to nudge a detent.
-  (function() {
-    const DETENT = 30;
-    const DRAG_THRESHOLD = 4;
-
-    document.querySelectorAll('.crt__knob').forEach((knob, i) => {
-      let angle = i === 0 ? 0 : 38; // varied resting positions
-      knob.style.transform = 'rotate(' + angle + 'deg)';
-
-      let dragging = false, startPointer = 0, startAngle = 0, moved = false;
-
-      const pointerAngle = (e) => {
-        const r = knob.getBoundingClientRect();
-        return Math.atan2(e.clientY - (r.top + r.height / 2),
-                          e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
-      };
-
-      knob.addEventListener('pointerdown', (e) => {
-        dragging = true; moved = false;
-        startPointer = pointerAngle(e);
-        startAngle = angle;
-        knob.setPointerCapture(e.pointerId);
-        knob.style.transition = 'none';
-        knob.classList.add('is-turning');
-        e.preventDefault();
-      });
-
-      knob.addEventListener('pointermove', (e) => {
-        if (!dragging) return;
-        const delta = pointerAngle(e) - startPointer;
-        if (Math.abs(delta) > DRAG_THRESHOLD) moved = true;
-        angle = startAngle + delta;
-        knob.style.transform = 'rotate(' + angle + 'deg)';
-      });
-
-      const release = () => {
-        if (!dragging) return;
-        dragging = false;
-        knob.classList.remove('is-turning');
-        angle = moved ? Math.round(angle / DETENT) * DETENT : startAngle + DETENT;
-        knob.style.transition = 'transform .18s cubic-bezier(.34,1.56,.64,1)';
-        knob.style.transform = 'rotate(' + angle + 'deg)';
-      };
-
-      knob.addEventListener('pointerup', release);
-      knob.addEventListener('pointercancel', release);
-    });
   })();
 </script>
 
