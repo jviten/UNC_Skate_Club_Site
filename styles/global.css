@@ -981,9 +981,8 @@ body {
   .info-grid { grid-template-columns: 1fr; gap: 36px; }
   .meta-strip { font-size: 11px; }
   .meta-strip__issue { font-size: 13px; }
-  /* drop the torn-edge displacement — clean rectangle on mobile */
-  .flyer__paper { filter: drop-shadow(0 5px 0 rgba(0,0,0,.32)) drop-shadow(0 18px 24px rgba(0,0,0,.45)); }
-  .flyer-wrap::before { display: none; }
+  /* hide the torn-paper info strip sitting under the flyer on mobile */
+  .below { display: none; }
   /* lighter nav compositing (helps the skater) + each link its own subtle key */
   .nav-band::before { display: none; }
   .nav-band__list { justify-content: center; gap: 8px; }
