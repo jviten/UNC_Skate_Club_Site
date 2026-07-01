@@ -413,8 +413,8 @@ body {
 
 .crt {
   position: relative;
-  width: min(680px, 92vw);
-  margin-top: 72px; /* headroom for the antenna */
+  width: min(840px, 94vw);
+  margin-top: 80px; /* headroom for the antenna */
 }
 
 /* rabbit-ear antenna rising out of the cabinet top */
@@ -466,9 +466,9 @@ body {
   position: relative;
   z-index: 1;
   display: flex;
-  gap: 18px;
-  padding: 20px;
-  border-radius: 16px;
+  gap: 22px;
+  padding: 24px;
+  border-radius: 18px;
   background:
     repeating-linear-gradient(3deg, rgba(0,0,0,.10) 0 1px, rgba(255,255,255,.045) 1px 2px, transparent 2px 9px),
     linear-gradient(100deg, #6d4223 0%, #97643a 26%, #7a4d2b 50%, #8c5c34 74%, #6a4022 100%);
@@ -482,7 +482,7 @@ body {
 /* recessed dark bezel around the tube */
 .crt__screen-frame {
   flex: 1 1 auto;
-  padding: 16px;
+  padding: 18px;
   border-radius: 14px;
   background: linear-gradient(160deg, #2b2b2b, #171717);
   box-shadow:
@@ -492,21 +492,18 @@ body {
 }
 .crt__screen {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 26px / 20px; /* CRT tube curvature */
+  border-radius: 26px / 18px; /* CRT tube curvature */
   background: #05070a;
   box-shadow: inset 0 0 40px 8px rgba(0,0,0,.9);
 }
 .crt__screen iframe {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
-  /* overscan the 16:9 embed to fill the 4:3 tube (crops edges, reads as CRT) */
-  transform: translate(-50%, -50%) scale(1.34);
 }
 .crt__scan {
   position: absolute;
@@ -531,16 +528,16 @@ body {
 
 /* control panel — speaker, knobs, power */
 .crt__panel {
-  flex: 0 0 118px;
+  flex: 0 0 140px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   padding: 6px 4px;
 }
 .crt__brand {
   font-family: "VT323", monospace;
-  font-size: 15px;
+  font-size: 17px;
   letter-spacing: 0.08em;
   color: #f0e6cf;
   background: #241608;
@@ -552,7 +549,7 @@ body {
 }
 .crt__speaker {
   width: 100%;
-  height: 92px;
+  height: 112px;
   border-radius: 6px;
   background: repeating-linear-gradient(0deg, #2a1c0e 0 3px, #4a331b 3px 6px);
   box-shadow: inset 0 2px 5px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.08);
@@ -564,8 +561,8 @@ body {
 }
 .crt__knob {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: radial-gradient(circle at 38% 32%, #4a4d50, #1a1c1e 70%);
   border: 2px solid #0c0d0e;
