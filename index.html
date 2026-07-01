@@ -259,24 +259,36 @@
         <div class="crt__screen-frame">
           <div class="crt__screen">
             <iframe
-              src="https://www.youtube-nocookie.com/embed/FUS0ikotKhY"
-              title="Pluto — UNC Skate Club"
+              src="https://www.youtube-nocookie.com/embed/FUS0ikotKhY?rel=0&modestbranding=1"
+              title="UNC Skate Club video"
               loading="lazy"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen></iframe>
             <span class="crt__scan" aria-hidden="true"></span>
+            <span class="crt__static" aria-hidden="true"></span>
             <span class="crt__glass" aria-hidden="true"></span>
+            <span class="crt__osd" aria-hidden="true">CH 01</span>
           </div>
         </div>
 
         <div class="crt__panel">
-          <div class="crt__brand">PLUTO-VISION</div>
+          <div class="crt__brand">PLUTO</div>
           <div class="crt__speaker" aria-hidden="true"></div>
+          <div class="crt__channels" role="group" aria-label="Channel selector">
+            <button class="crt__ch-btn is-active" type="button" aria-pressed="true">1</button>
+            <button class="crt__ch-btn" type="button" aria-pressed="false">2</button>
+          </div>
           <div class="crt__knobs">
-            <span class="crt__knob"><span class="crt__knob-notch"></span></span>
-            <span class="crt__knob"><span class="crt__knob-notch"></span></span>
+            <span class="crt__knob-wrap">
+              <span class="crt__knob"><span class="crt__knob-notch"></span></span>
+              <span class="crt__knob-label">VOL</span>
+            </span>
+            <span class="crt__knob-wrap">
+              <span class="crt__knob"><span class="crt__knob-notch"></span></span>
+              <span class="crt__knob-label">TINT</span>
+            </span>
           </div>
           <div class="crt__power">
             <span class="crt__led" aria-hidden="true"></span> ON
@@ -287,8 +299,6 @@
       <span class="crt__foot crt__foot--l" aria-hidden="true"></span>
       <span class="crt__foot crt__foot--r" aria-hidden="true"></span>
     </div>
-
-    <figcaption class="tv-zone__cap">"pluto" — our video</figcaption>
   </section>
 
   <!-- GALLERY — printed photos pinned to the cork -->
@@ -388,13 +398,54 @@
     setTimeout(runLap, 600);
   })();
 
-  // Spinnable TV knobs — grab-and-turn (or click to nudge). Purely tactile.
+  // Channel push-buttons — select a video. Brand plate + on-screen badge
+  // reflect the current channel. IDs are a fixed whitelist, never user input.
   (function() {
-    const knobs = document.querySelectorAll('.crt__knob');
-    const DETENT = 30;         // degrees per "click" of the knob
-    const DRAG_THRESHOLD = 4;  // degrees before a press counts as a spin, not a click
+    const CHANNELS = [
+      { id: 'FUS0ikotKhY', name: 'PLUTO' },
+      { id: 'eJ-xR9mPM-Q', name: 'EXECUTIVE DECISIONS' }
+    ];
 
-    knobs.forEach((knob, i) => {
+    const iframe   = document.querySelector('.crt__screen iframe');
+    const osd      = document.querySelector('.crt__osd');
+    const staticEl = document.querySelector('.crt__static');
+    const brand    = document.querySelector('.crt__brand');
+    const buttons  = Array.from(document.querySelectorAll('.crt__ch-btn'));
+    if (!iframe) return;
+
+    let channel = 0; // HTML starts on channel 1
+
+    function tuneTo(index, play) {
+      const n = ((index % CHANNELS.length) + CHANNELS.length) % CHANNELS.length;
+      const c = CHANNELS[n];
+      if (n !== channel) {
+        channel = n;
+        let src = 'https://www.youtube-nocookie.com/embed/' + c.id + '?rel=0&modestbranding=1';
+        if (play) src += '&autoplay=1';
+        iframe.src = src;
+        if (staticEl) { staticEl.classList.remove('is-on'); void staticEl.offsetWidth; staticEl.classList.add('is-on'); }
+      }
+      if (brand) brand.textContent = c.name;
+      if (osd) {
+        osd.textContent = 'CH ' + String(n + 1).padStart(2, '0');
+        if (play) { osd.classList.remove('is-flash'); void osd.offsetWidth; osd.classList.add('is-flash'); }
+      }
+      buttons.forEach((b, i) => {
+        b.classList.toggle('is-active', i === n);
+        b.setAttribute('aria-pressed', i === n ? 'true' : 'false');
+      });
+    }
+
+    tuneTo(0, false); // sync the display to channel 1 without reloading
+    buttons.forEach((b, i) => b.addEventListener('click', () => tuneTo(i, true)));
+  })();
+
+  // TV knobs — purely decorative. Grab-and-turn or click to nudge a detent.
+  (function() {
+    const DETENT = 30;
+    const DRAG_THRESHOLD = 4;
+
+    document.querySelectorAll('.crt__knob').forEach((knob, i) => {
       let angle = i === 0 ? 0 : 38; // varied resting positions
       knob.style.transform = 'rotate(' + angle + 'deg)';
 
@@ -428,7 +479,6 @@
         if (!dragging) return;
         dragging = false;
         knob.classList.remove('is-turning');
-        // click without a spin ticks one detent; a spin snaps to the nearest one
         angle = moved ? Math.round(angle / DETENT) * DETENT : startAngle + DETENT;
         knob.style.transition = 'transform .18s cubic-bezier(.34,1.56,.64,1)';
         knob.style.transform = 'rotate(' + angle + 'deg)';
